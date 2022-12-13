@@ -1,6 +1,8 @@
 package com.example.parkbuddy;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -8,7 +10,11 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class SimplePedometerActivity extends Activity implements SensorEventListener, StepListener {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+
+
+public class SimplePedometerActivity extends AppCompatActivity implements SensorEventListener, StepListener {
     private TextView textView;
     private SimpleStepDetector simpleStepDetector;
     private SensorManager sensorManager;
@@ -20,6 +26,15 @@ public class SimplePedometerActivity extends Activity implements SensorEventList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pedometer);
+
+        // o nosso vermelho
+        int color = Color.parseColor("#A0282C");
+
+        // Get the app bar for the activity
+        ActionBar appBar = getSupportActionBar();
+        appBar.setBackgroundDrawable(new ColorDrawable(color));
+        appBar.setTitle("Steps");
+
 
         textView = findViewById(R.id.step_count);
         textView.setTextSize(30);
