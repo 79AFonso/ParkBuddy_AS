@@ -1,0 +1,6 @@
+booking, pagamentos..
+firebase migrar contas
+
+dar check in/out, pagar, contabilizar
+
+(simular a cancela)

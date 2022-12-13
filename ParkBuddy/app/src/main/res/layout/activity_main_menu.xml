@@ -33,6 +33,8 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="162dp"
         android:text="Park"
+        android:drawableLeft="@drawable/parked_car"
+        android:drawablePadding="10dp"
         android:elevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -44,7 +46,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="289dp"
         android:drawableLeft="@drawable/qr_code"
-        android:drawablePadding="100dp"
+        android:drawablePadding="10dp"
         android:text="Scan Qr"
         android:elevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +59,8 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="421dp"
         android:text="Statistics"
+        android:drawableLeft="@drawable/walking_man"
+        android:drawablePadding="10dp"
         android:elevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -69,6 +73,8 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="551dp"
         android:text="Profile"
+        android:drawableLeft="@drawable/gear"
+        android:drawablePadding="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
