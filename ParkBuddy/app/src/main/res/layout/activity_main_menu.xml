@@ -44,8 +44,9 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="289dp"
         android:drawableLeft="@drawable/qr_code"
+        android:drawablePadding="100dp"
         android:text="Scan Qr"
-        android:elevation="10dp"
+        android:elevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
