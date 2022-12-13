@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,8 @@ public class SimplePedometerActivity extends AppCompatActivity implements Sensor
         appBar.setBackgroundDrawable(new ColorDrawable(color));
         appBar.setTitle("Steps");
 
+        // Enable the "back" button in the app bar
+        appBar.setDisplayHomeAsUpEnabled(true);
 
         textView = findViewById(R.id.step_count);
         textView.setTextSize(30);
@@ -45,6 +48,18 @@ public class SimplePedometerActivity extends AppCompatActivity implements Sensor
         simpleStepDetector = new SimpleStepDetector();
         simpleStepDetector.registerListener(this);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle "up" button click
+        if (item.getItemId() == android.R.id.home) {
+            // Navigate the user back to the previous activity
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onResume() {
