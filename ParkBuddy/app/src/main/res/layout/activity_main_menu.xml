@@ -7,6 +7,15 @@
     android:backgroundTint="#F4F3F3"
     tools:context=".MainMenu">
 
+    <View
+        android:id="@+id/menu_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#E0E0E0"
+        />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="327dp"
@@ -15,45 +24,50 @@
         android:layout_marginTop="43dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_no_background" />
+        app:srcCompat="@drawable/logo_no_background"/>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/parkBtn"
         android:layout_width="315dp"
         android:layout_height="96dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="162dp"
         android:text="Park"
+        android:elevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/scanBtn"
         android:layout_width="315dp"
         android:layout_height="96dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="289dp"
-        android:text="Button"
+        android:drawableLeft="@drawable/qr_code"
+        android:text="Scan Qr"
+        android:elevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/statisticsBtn"
         android:layout_width="315dp"
         android:layout_height="96dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="421dp"
-        android:text="Button"
+        android:text="Statistics"
+        android:elevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/profileBtn"
         android:layout_width="315dp"
         android:layout_height="96dp"
+        android:elevation="10dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="551dp"
-        android:text="Button"
+        android:text="Profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
