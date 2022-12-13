@@ -3,6 +3,7 @@ package com.example.parkbuddy;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -37,5 +38,14 @@ public class MainMenu extends AppCompatActivity {
         statisticBtn.setTextColor(Color.BLACK);
         profileBtn.setBackgroundColor(Color.WHITE);
         profileBtn.setTextColor(Color.BLACK);
+
+        statisticBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Do something when the button is clicked
+                Intent intent = new Intent(MainMenu.this, SimplePedometerActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
