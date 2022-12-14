@@ -1,11 +1,14 @@
 package com.example.parkbuddy;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,6 +25,15 @@ public class ScannerActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scan_page);
+
+        // o nosso vermelho
+        int color = Color.parseColor("#A0282C");
+
+        // Get the app bar for the activity
+        ActionBar appBar = getSupportActionBar();
+        appBar.setBackgroundDrawable(new ColorDrawable(color));
+        appBar.setTitle("Scan Qr");
+
         btn_scan =findViewById(R.id.btn_scan);
         btn_scan.setOnClickListener(v->
         {
