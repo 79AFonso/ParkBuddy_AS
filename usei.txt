@@ -1,0 +1,1 @@
+ ZXing ("Zebra Crossing") open-source barcode scanning library.

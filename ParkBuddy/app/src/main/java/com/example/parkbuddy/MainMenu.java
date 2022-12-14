@@ -47,5 +47,14 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        scanQrBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Do something when the button is clicked
+                Intent intent = new Intent(MainMenu.this, ScannerActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
