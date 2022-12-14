@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -34,12 +35,27 @@ public class ScannerActivity extends AppCompatActivity
         appBar.setBackgroundDrawable(new ColorDrawable(color));
         appBar.setTitle("Scan Qr");
 
+        // Enable the "back" button in the app bar
+        appBar.setDisplayHomeAsUpEnabled(true);
+
         btn_scan =findViewById(R.id.btn_scan);
         btn_scan.setOnClickListener(v->
         {
             scanCode();
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle "up" button click
+        if (item.getItemId() == android.R.id.home) {
+            // Navigate the user back to the previous activity
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void scanCode()
     {
