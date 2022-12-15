@@ -14,7 +14,7 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
-        android:src="@drawable/ic_launcher_background"/>
+        android:src="@drawable/logo_no_background"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:text="Login"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="@color/teal_700"
+            android:textColor="#A0282C"
             android:gravity="center_horizontal"
             android:layout_marginVertical="16dp"/>
 
@@ -67,6 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:backgroundTint="#A0282C"
             android:text="Login"/>
 
         <LinearLayout
@@ -88,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:text="Register here"
-                android:textColor="@color/teal_700"
+                android:textColor="#A0282C"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
 
