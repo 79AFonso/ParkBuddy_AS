@@ -23,6 +23,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     TextInputEditText etRegEmail;
     TextInputEditText etRegPassword;
+    TextInputEditText etConfirmRegPassword;
     TextView tvLoginHere;
     Button btnRegister;
 
@@ -35,8 +36,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         etRegEmail = findViewById(R.id.etRegEmail);
         etRegPassword = findViewById(R.id.etRegPass);
+        etConfirmRegPassword = findViewById(R.id.etConfirmRegPass);
         tvLoginHere = findViewById(R.id.tvLoginHere);
         btnRegister = findViewById(R.id.btnRegister);
+
 
         // o nosso vermelho
         int color = Color.parseColor("#A0282C");
@@ -60,13 +63,17 @@ public class SignUpActivity extends AppCompatActivity {
     private void createUser(){
         String email = etRegEmail.getText().toString();
         String password = etRegPassword.getText().toString();
+        String confirmPassword = etConfirmRegPassword.getText().toString();
 
         if (TextUtils.isEmpty(email)){
             etRegEmail.setError("Email cannot be empty");
             etRegEmail.requestFocus();
-        }else if (TextUtils.isEmpty(password)){
+        }else if (TextUtils.isEmpty(password)) {
             etRegPassword.setError("Password cannot be empty");
             etRegPassword.requestFocus();
+        }else if(!password.equals(confirmPassword)){
+            etConfirmRegPassword.setError("Passwords don´t match");
+            etConfirmRegPassword.requestFocus();
         }else{
             mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
