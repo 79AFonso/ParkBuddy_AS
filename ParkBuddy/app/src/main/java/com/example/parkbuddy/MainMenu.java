@@ -39,6 +39,15 @@ public class MainMenu extends AppCompatActivity {
         profileBtn.setBackgroundColor(Color.WHITE);
         profileBtn.setTextColor(Color.BLACK);
 
+        parkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Do something when the button is clicked
+                Intent intent = new Intent(MainMenu.this, ParkActivity.class);
+                startActivity(intent);
+            }
+        });
+
         statisticBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
