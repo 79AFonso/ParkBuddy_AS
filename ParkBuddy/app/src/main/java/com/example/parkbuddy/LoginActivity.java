@@ -1,6 +1,8 @@
 package com.example.parkbuddy;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +37,16 @@ public class LoginActivity extends AppCompatActivity {
         etLoginPassword = findViewById(R.id.etLoginPass);
         tvRegisterHere = findViewById(R.id.tvRegisterHere);
         btnLogin = findViewById(R.id.btnLogin);
+
+        // o nosso vermelho
+        int color = Color.parseColor("#A0282C");
+
+        // Get the app bar for the activity
+        ActionBar appBar = getSupportActionBar();
+        appBar.setBackgroundDrawable(new ColorDrawable(color));
+        appBar.setTitle("Login");
+
+        mAuth = FirebaseAuth.getInstance();
 
         mAuth = FirebaseAuth.getInstance();
 
