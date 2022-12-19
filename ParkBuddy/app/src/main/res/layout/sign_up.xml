@@ -27,7 +27,11 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/text_field_border"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:boxStrokeColor="#A0282C"
+            app:hintEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etRegEmail"
@@ -42,14 +46,18 @@
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            android:background="@color/text_field_border"
+            app:boxStrokeColor="#A0282C"
+            app:boxBackgroundColor="@android:color/transparent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etRegPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                />
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -57,13 +65,17 @@
             android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            android:background="@color/text_field_border"
+            app:boxStrokeColor="#A0282C"
+            app:boxBackgroundColor="@android:color/transparent">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etConfirmRegPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Confirm Password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            app:hintTextColor="#A0282C"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

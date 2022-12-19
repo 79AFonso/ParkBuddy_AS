@@ -14,6 +14,8 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,10 @@ public class ParkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park);
+
+        //RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         // o nosso vermelho
         int color = Color.parseColor("#A0282C");
