@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/info_image"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/blackcar"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="Localization"
+        android:textSize="25dp"
+        android:textColor="#000000"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtInfo"
+        android:text="Not Avaliable"
+        android:textColor="#000000"
+        android:paddingBottom="130dp"/>
+
+    <Button
+        android:id="@+id/btn_map"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#A0282C"
+        android:text="Check Map" />
+
+    <Button
+        android:id="@+id/btn_share"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#A0282C"
+        android:text="Share" />
+
+    <Button
+        android:id="@+id/btn_more"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#A0282C"
+        android:text="MORE INFO" />
+
+</LinearLayout>

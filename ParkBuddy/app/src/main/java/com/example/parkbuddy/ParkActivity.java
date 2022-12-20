@@ -1,5 +1,6 @@
 package com.example.parkbuddy;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -68,8 +69,14 @@ public class ParkActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                items.remove(i);
-                adapter.notifyDataSetChanged();
+                //para remover usar isto
+                //items.remove(i);
+                //adapter.notifyDataSetChanged();
+
+                // usar o putExtra a seguir
+                Intent intent = new Intent(ParkActivity.this, InfoActivity.class);
+                startActivity(intent);
+
             }
         });
 
