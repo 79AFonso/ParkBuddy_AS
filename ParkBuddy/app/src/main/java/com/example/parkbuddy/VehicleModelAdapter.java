@@ -1,15 +1,21 @@
 package com.example.parkbuddy;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -42,6 +48,41 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
         holder.modelTextView.setText(vehicleModel.model);
         holder.plateTextView.setText(vehicleModel.plate);
         Glide.with(mContext).load(vehicleModel.img).into(holder.imageView);
+
+        holder.llRow.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+                Dialog dialog = new Dialog(mContext);
+                dialog.setContentView(R.layout.add_dialog);
+
+               EditText txtModel = dialog.findViewById(R.id.txtModel);
+               EditText txtPlate = dialog.findViewById(R.id.txtPlate);
+               Button btnAdd = dialog.findViewById(R.id.btnAdd);
+               TextView txtTitle = dialog.findViewById(R.id.txtTitle);
+
+               txtTitle.setText("Update Vehicle");
+
+               btnAdd.setText("Update");
+
+               txtModel.setText((mVehicleModels.get(position)).model);
+               txtPlate.setText((mVehicleModels.get(position)).plate);
+
+               btnAdd.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       String model = txtModel.getText().toString();
+                       String plate = txtPlate.getText().toString();
+
+                       mVehicleModels.set(position,new VehicleModel(model,plate));
+                       notifyItemChanged(position);
+
+                       dialog.dismiss();
+
+                   }
+               });
+               dialog.show();
+           }
+        });
     }
 
     // Step 5: Override the getItemCount method
@@ -56,6 +97,7 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
         ImageView imageView;
         TextView modelTextView;
         TextView plateTextView;
+        LinearLayout llRow;
 
         // Step 6b: Create a constructor that takes in a View as a parameter
         public VehicleModelViewHolder(View itemView) {
@@ -64,6 +106,7 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
             imageView = itemView.findViewById(R.id.imageView2);
             modelTextView = itemView.findViewById(R.id.txtModel);
             plateTextView = itemView.findViewById(R.id.txtPlate);
+            llRow = itemView.findViewById(R.id.llrow);
         }
     }
 }

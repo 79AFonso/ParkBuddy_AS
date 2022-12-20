@@ -17,6 +17,7 @@
         android:textStyle="bold"
         android:textColor="#fff"
         android:layout_margin="21dp"
+        android:id="@+id/txtTitle"
         android:text="Add Vehicle" />
 
     <EditText
