@@ -1,5 +1,6 @@
 package com.example.parkbuddy;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,9 +27,10 @@ import java.util.List;
 
 public class ParkActivity extends AppCompatActivity {
 
-    private List<String> items = new ArrayList<>();
-    private ArrayAdapter<String> adapter;
+    private List<VehicleModel> arrVehicles = new ArrayList<>();
+    private VehicleModelAdapter adapter;
     FloatingActionButton btnOpenDialog;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +39,8 @@ public class ParkActivity extends AppCompatActivity {
 
         btnOpenDialog = findViewById(R.id.btnDialog);
 
-        //RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView = findViewById(R.id.recycler_view);
+
 
 
         // o nosso vermelho
@@ -53,11 +55,6 @@ public class ParkActivity extends AppCompatActivity {
         appBar.setDisplayHomeAsUpEnabled(true);
 
 
-        // Set up the list view and the adapter
-        ListView listView = findViewById(R.id.list_view);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        listView.setAdapter(adapter);
-
         // Set up the add button
         Button addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -66,13 +63,13 @@ public class ParkActivity extends AppCompatActivity {
                 // Get the text from the edit text and add it to the list
                 EditText editText = findViewById(R.id.edit_text);
                 String item = editText.getText().toString();
-                items.add(item);
+                arrVehicles.add(new VehicleModel(item,"bebebe"));
                 adapter.notifyDataSetChanged();
                 editText.setText("");
             }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //para remover usar isto
@@ -81,13 +78,53 @@ public class ParkActivity extends AppCompatActivity {
 
                 // usar o putExtra a seguir
                 Intent intent = new Intent(ParkActivity.this, InfoActivity.class);
-                intent.putExtra("matricula",items.get(i)); // passa a matricula que clicamos
+                intent.putExtra("matricula",arrVehicles.get(i).plate); // passa a matricula que clicamos
                 startActivity(intent);
 
             }
-        });
+        });*/
 
+        btnOpenDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog dialog = new Dialog(ParkActivity.this);  // sitio onde abre o dialog
+                dialog.setContentView(R.layout.add_dialog);
+
+                EditText txtModel = dialog.findViewById(R.id.txtModel);
+                EditText txtPlate = dialog.findViewById(R.id.txtPlate);
+                Button btnAdd = dialog.findViewById(R.id.btnAdd);
+
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       // se quiser adicionar verificacao aqui  -> if else
+                       String model = txtModel.getText().toString();
+                       String plate = txtPlate.getText().toString();
+
+                       arrVehicles.add(new VehicleModel(model,plate));
+
+                       adapter.notifyItemInserted(arrVehicles.size() - 1);
+
+                       recyclerView.scrollToPosition(arrVehicles.size() - 1);
+
+                       dialog.dismiss();
+                   }
+                });
+
+                dialog.show();
+
+            }
+        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new VehicleModelAdapter(arrVehicles, this);
+        recyclerView.setAdapter(adapter);
     }
+
+
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle "up" button click
