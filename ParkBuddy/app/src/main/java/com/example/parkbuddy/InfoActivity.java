@@ -16,6 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class InfoActivity extends AppCompatActivity {
 
+
+    //Intent myIntent = getIntent(); // gets the previously created intent
+    //String firstKeyName = myIntent.getStringExtra("firstKeyName")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +32,10 @@ public class InfoActivity extends AppCompatActivity {
         // Get the app bar for the activity
         ActionBar appBar = getSupportActionBar();
         appBar.setBackgroundDrawable(new ColorDrawable(color));
-        appBar.setTitle("Park");
+        appBar.setTitle("Info");
 
         // Enable the "back" button in the app bar
         appBar.setDisplayHomeAsUpEnabled(true);
-
-
-
     }
 
     @Override

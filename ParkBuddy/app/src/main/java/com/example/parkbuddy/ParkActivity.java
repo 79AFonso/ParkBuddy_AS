@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +28,14 @@ public class ParkActivity extends AppCompatActivity {
 
     private List<String> items = new ArrayList<>();
     private ArrayAdapter<String> adapter;
+    FloatingActionButton btnOpenDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park);
+
+        btnOpenDialog = findViewById(R.id.btnDialog);
 
         //RecyclerView recyclerView = findViewById(R.id.recycler_view);
         //recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -75,6 +81,7 @@ public class ParkActivity extends AppCompatActivity {
 
                 // usar o putExtra a seguir
                 Intent intent = new Intent(ParkActivity.this, InfoActivity.class);
+                intent.putExtra("matricula",items.get(i)); // passa a matricula que clicamos
                 startActivity(intent);
 
             }
