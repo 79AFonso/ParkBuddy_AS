@@ -83,6 +83,15 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
                dialog.show();
            }
         });
+
+        holder.llRow.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                // vou aqui https://youtu.be/AUow1zsO6mg?t=1722
+                return true;
+            }
+        });
     }
 
     // Step 5: Override the getItemCount method
