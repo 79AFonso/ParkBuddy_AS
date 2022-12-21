@@ -1,8 +1,11 @@
 package com.example.parkbuddy;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,64 +60,45 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
         holder.llRow.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-                Dialog dialog = new Dialog(mContext);
-                dialog.setContentView(R.layout.add_dialog);
+               Intent intent = new Intent(mContext, InfoActivity.class);
+               intent.putExtra("matricula", vehicleModel.plate);
+               mContext.startActivity(intent);
 
-               EditText txtModel = dialog.findViewById(R.id.txtModel);
-               EditText txtPlate = dialog.findViewById(R.id.txtPlate);
-               Button btnAdd = dialog.findViewById(R.id.btnAdd);
-               TextView txtTitle = dialog.findViewById(R.id.txtTitle);
-
-               txtTitle.setText("Update Vehicle");
-
-               btnAdd.setText("Update");
-
-               txtModel.setText((mVehicleModels.get(adapterPosition)).model);
-               txtPlate.setText((mVehicleModels.get(adapterPosition)).plate);
-
-               btnAdd.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View view) {
-                       String model = txtModel.getText().toString();
-                       String plate = txtPlate.getText().toString();
-
-                       mVehicleModels.set(adapterPosition,new VehicleModel(model,plate));
-                       notifyItemChanged(adapterPosition);
-
-                       dialog.dismiss();
-
-                   }
-               });
-               dialog.show();
            }
         });
 
         holder.llRow.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                Dialog dialog = new Dialog(mContext);
+                dialog.setContentView(R.layout.add_dialog);
 
-                // vou aqui https://youtu.be/AUow1zsO6mg?t=1722
+                EditText txtModel = dialog.findViewById(R.id.txtModel);
+                EditText txtPlate = dialog.findViewById(R.id.txtPlate);
+                Button btnAdd = dialog.findViewById(R.id.btnAdd);
+                TextView txtTitle = dialog.findViewById(R.id.txtTitle);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
-                        .setTitle("Delete Vehicle")
-                        .setMessage("Are you sure you want to delete?")
-                        .setIcon(R.drawable.ic_baseline_delete_24)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mVehicleModels.remove(adapterPosition);
-                                notifyItemRemoved(adapterPosition);
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                txtTitle.setText("Update Vehicle");
 
-                            }
-                        });
+                btnAdd.setText("Update");
 
-                builder.show();
+                txtModel.setText((mVehicleModels.get(adapterPosition)).model);
+                txtPlate.setText((mVehicleModels.get(adapterPosition)).plate);
 
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String model = txtModel.getText().toString();
+                        String plate = txtPlate.getText().toString();
+
+                        mVehicleModels.set(adapterPosition,new VehicleModel(model,plate));
+                        notifyItemChanged(adapterPosition);
+
+                        dialog.dismiss();
+
+                    }
+                });
+                dialog.show();
 
                 return true;
             }
@@ -146,3 +130,30 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
         }
     }
 }
+
+
+/*
+para deletar
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                        .setTitle("Delete Vehicle")
+                        .setMessage("Are you sure you want to delete?")
+                        .setIcon(R.drawable.ic_baseline_delete_24)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mVehicleModels.remove(adapterPosition);
+                                notifyItemRemoved(adapterPosition);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                builder.show();
+
+
+                return true;
+ */

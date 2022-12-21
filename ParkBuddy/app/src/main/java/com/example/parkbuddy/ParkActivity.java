@@ -54,21 +54,6 @@ public class ParkActivity extends AppCompatActivity {
         // Enable the "back" button in the app bar
         appBar.setDisplayHomeAsUpEnabled(true);
 
-
-        // Set up the add button
-        Button addButton = findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Get the text from the edit text and add it to the list
-                EditText editText = findViewById(R.id.edit_text);
-                String item = editText.getText().toString();
-                arrVehicles.add(new VehicleModel(item,"bebebe"));
-                adapter.notifyDataSetChanged();
-                editText.setText("");
-            }
-        });
-
         btnOpenDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
