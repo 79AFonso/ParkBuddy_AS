@@ -2,6 +2,7 @@ package com.example.parkbuddy;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -41,8 +43,11 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
     // Step 4: Override the onBindViewHolder method
     @Override
     public void onBindViewHolder(VehicleModelViewHolder holder, int position) {
+        // Get the adapter position of the ViewHolder
+        int adapterPosition = holder.getAdapterPosition();
+
         // Get the VehicleModel object at the given position
-        VehicleModel vehicleModel = (VehicleModel) mVehicleModels.get(position);
+        VehicleModel vehicleModel = (VehicleModel) mVehicleModels.get(adapterPosition);
 
         // Set the text and image for the views
         holder.modelTextView.setText(vehicleModel.model);
@@ -64,8 +69,8 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
 
                btnAdd.setText("Update");
 
-               txtModel.setText((mVehicleModels.get(position)).model);
-               txtPlate.setText((mVehicleModels.get(position)).plate);
+               txtModel.setText((mVehicleModels.get(adapterPosition)).model);
+               txtPlate.setText((mVehicleModels.get(adapterPosition)).plate);
 
                btnAdd.setOnClickListener(new View.OnClickListener() {
                    @Override
@@ -73,8 +78,8 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
                        String model = txtModel.getText().toString();
                        String plate = txtPlate.getText().toString();
 
-                       mVehicleModels.set(position,new VehicleModel(model,plate));
-                       notifyItemChanged(position);
+                       mVehicleModels.set(adapterPosition,new VehicleModel(model,plate));
+                       notifyItemChanged(adapterPosition);
 
                        dialog.dismiss();
 
@@ -89,6 +94,28 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
             public boolean onLongClick(View view) {
 
                 // vou aqui https://youtu.be/AUow1zsO6mg?t=1722
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                        .setTitle("Delete Vehicle")
+                        .setMessage("Are you sure you want to delete?")
+                        .setIcon(R.drawable.ic_baseline_delete_24)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mVehicleModels.remove(adapterPosition);
+                                notifyItemRemoved(adapterPosition);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                builder.show();
+
+
                 return true;
             }
         });

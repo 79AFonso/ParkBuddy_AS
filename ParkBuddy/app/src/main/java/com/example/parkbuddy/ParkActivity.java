@@ -69,21 +69,6 @@ public class ParkActivity extends AppCompatActivity {
             }
         });
 
-       /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //para remover usar isto
-                //items.remove(i);
-                //adapter.notifyDataSetChanged();
-
-                // usar o putExtra a seguir
-                Intent intent = new Intent(ParkActivity.this, InfoActivity.class);
-                intent.putExtra("matricula",arrVehicles.get(i).plate); // passa a matricula que clicamos
-                startActivity(intent);
-
-            }
-        });*/
-
         btnOpenDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
