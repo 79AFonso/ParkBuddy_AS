@@ -13,10 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import androidx.recyclerview.widget.ItemTouchHelper;
+
 
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +43,7 @@ public class ParkActivity extends AppCompatActivity {
         btnOpenDialog = findViewById(R.id.btnDialog);
 
         recyclerView = findViewById(R.id.recycler_view);
+
 
 
 
@@ -87,13 +91,34 @@ public class ParkActivity extends AppCompatActivity {
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
         adapter = new VehicleModelAdapter(arrVehicles, this);
         recyclerView.setAdapter(adapter);
+
+
+
     }
 
 
 
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
 
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            // Delete the item from your data source
+            int position = viewHolder.getAdapterPosition();
+            arrVehicles.remove(position);
+
+            // Notify the adapter of the change
+            adapter.notifyItemRemoved(position);
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

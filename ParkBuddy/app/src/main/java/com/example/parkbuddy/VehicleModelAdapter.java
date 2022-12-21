@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -28,6 +29,7 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
     // Step 1: Declare a private list of VehicleModel objects and a private context
     private List<VehicleModel> mVehicleModels;
     private Context mContext;
+
 
     // Step 2: Create a constructor that takes in a list of VehicleModel objects and a context
     public VehicleModelAdapter(List<VehicleModel> vehicleModels, Context context) {
@@ -103,6 +105,7 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
                 return true;
             }
         });
+
     }
 
     // Step 5: Override the getItemCount method
