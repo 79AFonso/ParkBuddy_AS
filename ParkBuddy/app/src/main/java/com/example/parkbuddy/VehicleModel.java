@@ -13,4 +13,5 @@ public class VehicleModel {
         this.model = model;
         this.plate = plate;
     }
+
 }

@@ -4,3 +4,6 @@ firebase migrar contas
 dar check in/out, pagar, contabilizar
 
 (simular a cancela)
+
+----FALTA FAZER (IR ADICIONANDO QUANDO LEMBRAR)----
+SENSORES BIOMETRICOS,

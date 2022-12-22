@@ -24,6 +24,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,18 +38,24 @@ public class ParkActivity extends AppCompatActivity {
     private VehicleModelAdapter adapter;
     FloatingActionButton btnOpenDialog;
     RecyclerView recyclerView;
+    DatabaseReference databaseUsers;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park);
 
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+
         btnOpenDialog = findViewById(R.id.btnDialog);
 
         recyclerView = findViewById(R.id.recycler_view);
 
 
-
+        databaseUsers = FirebaseDatabase.getInstance().getReference();
 
         // o nosso vermelho
         int color = Color.parseColor("#A0282C");
@@ -130,4 +140,10 @@ public class ParkActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void InsertData(){
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        Log.d("userID", "InsertData: " + currentUser.getUid());
+    }
+
 }
