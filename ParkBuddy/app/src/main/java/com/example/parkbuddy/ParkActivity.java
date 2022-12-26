@@ -3,6 +3,7 @@ package com.example.parkbuddy;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,42 +12,39 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
 
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ParkActivity extends AppCompatActivity {
@@ -59,9 +57,10 @@ public class ParkActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseReference databaseUsers;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private static final int REQUEST_TAKE_PHOTO = 1;
     private Uri image_uri;
     private Button btnTakePicture;
+    private StorageReference mStorageRef;
+    private DatabaseReference mDatabaseRef;
 
 
     @Override
@@ -70,6 +69,9 @@ public class ParkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_park);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
 
         btnOpenDialog = findViewById(R.id.btnDialog);
@@ -135,9 +137,13 @@ public class ParkActivity extends AppCompatActivity {
 
                        arrVehicles.add(new VehicleModel(img,model,plate));
 
+                       uploadFile(img,model,plate);
+
                        adapter.notifyItemInserted(arrVehicles.size() - 1);
 
                        recyclerView.scrollToPosition(arrVehicles.size() - 1);
+
+
 
                        dialog.dismiss();
                    }
@@ -233,5 +239,42 @@ public class ParkActivity extends AppCompatActivity {
         // https://www.youtube.com/watch?v=MfCiiTEwt3g
     }
 
+    private String getFileExtension(Uri uri){
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
+    }
 
+    private void uploadFile(String img, String model, String plate){
+        String currentUser = mAuth.getCurrentUser().getUid();
+        if (image_uri != null){
+            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(image_uri));
+
+            fileReference.putFile(image_uri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            Toast.makeText(ParkActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                            Upload upload = new Upload(plate,img,currentUser);
+                            String uploadId = mDatabaseRef.push().getKey();
+                            mDatabaseRef.child(uploadId).setValue(upload);
+                        }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ParkActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(ParkActivity.this, "Uploading...", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }else{
+            Toast.makeText(this,"No file selected",Toast.LENGTH_SHORT).show();
+        }
+    }
 }
