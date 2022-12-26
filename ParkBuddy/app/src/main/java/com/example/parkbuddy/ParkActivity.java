@@ -246,7 +246,8 @@ public class ParkActivity extends AppCompatActivity {
     }
 
     private void uploadFile(String img, String model, String plate){
-        String currentUser = mAuth.getCurrentUser().getUid();
+        String currentUser = mAuth.getCurrentUser().getUid();  // tentar referenciar estes 2 fora
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         if (image_uri != null){
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(image_uri));
 
@@ -256,9 +257,13 @@ public class ParkActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             Toast.makeText(ParkActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                            Upload upload = new Upload(plate,img,currentUser);
-                            String uploadId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadId).setValue(upload);
+                            Upload upload = new Upload(plate,taskSnapshot.getStorage().getDownloadUrl().toString(),currentUser);
+                            // Generate a unique key for the new object
+                            String key = mDatabaseRef.child("uploads").push().getKey();
+
+                            // Save the object to the database using the unique key
+                            mDatabaseRef.child("uploads").child(key).setValue(upload);
+                            // aqui é suposto adicionar na db mas nao ta a dar
                         }
             })
                     .addOnFailureListener(new OnFailureListener() {
