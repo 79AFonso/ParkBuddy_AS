@@ -1,10 +1,18 @@
 package com.example.parkbuddy;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +21,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
 
@@ -29,17 +42,26 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ParkActivity extends AppCompatActivity {
 
+    private static final int PERMISSION_CODE = 1234;
+    private static final int CAPTURE_CODE = 1001;
     private List<VehicleModel> arrVehicles = new ArrayList<>();
     private VehicleModelAdapter adapter;
     FloatingActionButton btnOpenDialog;
     RecyclerView recyclerView;
     DatabaseReference databaseUsers;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private static final int REQUEST_TAKE_PHOTO = 1;
+    private Uri image_uri;
+    private Button btnTakePicture;
 
 
     @Override
@@ -77,6 +99,31 @@ public class ParkActivity extends AppCompatActivity {
                 EditText txtModel = dialog.findViewById(R.id.txtModel);
                 EditText txtPlate = dialog.findViewById(R.id.txtPlate);
                 Button btnAdd = dialog.findViewById(R.id.btnAdd);
+                btnTakePicture = dialog.findViewById(R.id.btnImage);
+
+                btnTakePicture.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("picture", "btnTakePicture click");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (checkSelfPermission(Manifest.permission.CAMERA) ==
+                                        PackageManager.PERMISSION_DENIED ||
+                                        checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                                                PackageManager.PERMISSION_DENIED) {
+
+                                String[] permissions = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                                requestPermissions(permissions, PERMISSION_CODE);
+                            }
+                            else {
+                                openCamera();
+                            }
+                        } else {
+                            openCamera();
+                        }
+                    }
+                });
+
+
 
                 btnAdd.setOnClickListener(new View.OnClickListener() {
                    @Override
@@ -99,6 +146,9 @@ public class ParkActivity extends AppCompatActivity {
 
             }
         });
+
+
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
@@ -111,7 +161,42 @@ public class ParkActivity extends AppCompatActivity {
 
     }
 
+    private void openCamera() {
 
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "new image");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera");
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+
+        Intent camintent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        camintent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(camintent, CAPTURE_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode){
+            case PERMISSION_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    openCamera();
+                }
+                else {
+                    Toast.makeText(ParkActivity.this, "No Permission", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK){
+            //imageView.setImageURI(image_uri);
+            Toast.makeText(this, image_uri.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
 
     ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
         @Override
@@ -144,6 +229,8 @@ public class ParkActivity extends AppCompatActivity {
     private void InsertData(){
         FirebaseUser currentUser = mAuth.getCurrentUser();
         Log.d("userID", "InsertData: " + currentUser.getUid());
+        // https://www.youtube.com/watch?v=MfCiiTEwt3g
     }
+
 
 }

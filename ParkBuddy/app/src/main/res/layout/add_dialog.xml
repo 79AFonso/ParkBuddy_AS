@@ -9,6 +9,7 @@
     android:paddingBottom="11dp"
     android:orientation="vertical">
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +20,17 @@
         android:layout_margin="21dp"
         android:id="@+id/txtTitle"
         android:text="Add Vehicle" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take a Picture"
+        android:id="@+id/btnImage"
+        android:backgroundTint="#B1A6A6"
+        android:layout_marginBottom="11dp"
+        android:textColor="#000"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_baseline_photo_camera_back_24"/>
 
     <EditText
         android:layout_width="match_parent"

@@ -121,6 +121,7 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
         TextView modelTextView;
         TextView plateTextView;
         LinearLayout llRow;
+        Button btnImage;
 
         // Step 6b: Create a constructor that takes in a View as a parameter
         public VehicleModelViewHolder(View itemView) {
@@ -130,6 +131,7 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
             modelTextView = itemView.findViewById(R.id.txtModel);
             plateTextView = itemView.findViewById(R.id.txtPlate);
             llRow = itemView.findViewById(R.id.llrow);
+            btnImage = itemView.findViewById(R.id.btnImage);
         }
     }
 }
