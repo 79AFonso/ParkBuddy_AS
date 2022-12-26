@@ -131,8 +131,9 @@ public class ParkActivity extends AppCompatActivity {
                        // se quiser adicionar verificacao aqui  -> if else
                        String model = txtModel.getText().toString();
                        String plate = txtPlate.getText().toString();
+                       String img = String.valueOf(image_uri);
 
-                       arrVehicles.add(new VehicleModel(model,plate));
+                       arrVehicles.add(new VehicleModel(img,model,plate));
 
                        adapter.notifyItemInserted(arrVehicles.size() - 1);
 

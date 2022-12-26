@@ -2,10 +2,14 @@ package com.example.parkbuddy;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +83,9 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
                 EditText txtPlate = dialog.findViewById(R.id.txtPlate);
                 Button btnAdd = dialog.findViewById(R.id.btnAdd);
                 TextView txtTitle = dialog.findViewById(R.id.txtTitle);
+                Button btnImage = dialog.findViewById(R.id.btnImage);
+
+                btnImage.setVisibility(View.GONE); // tirar o botao da foto mais tarde se tiver tempo implementar
 
                 txtTitle.setText("Update Vehicle");
 
@@ -86,6 +93,7 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
 
                 txtModel.setText((mVehicleModels.get(adapterPosition)).model);
                 txtPlate.setText((mVehicleModels.get(adapterPosition)).plate);
+
 
                 btnAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
