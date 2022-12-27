@@ -34,13 +34,13 @@ public class ProfileActivity extends AppCompatActivity {
         // Enable the "back" button in the app bar
         appBar.setDisplayHomeAsUpEnabled(true);
 
-        btnLogOut = findViewById(R.id.btnLogout);
+        //btnLogOut = findViewById(R.id.btnLogout);
         mAuth = FirebaseAuth.getInstance();
 
-        btnLogOut.setOnClickListener(view ->{
-            mAuth.signOut();
-            startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-        });
+        //btnLogOut.setOnClickListener(view ->{
+        //    mAuth.signOut();
+        //    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+        //});
 
     }
 
