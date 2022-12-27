@@ -4,18 +4,27 @@ public class Upload {
     private String mName;
     private String mImageUrl;
     private String userId;
+    private String mmodel;
 
     public Upload(){
         //empty constructor needed
     }
-    public Upload(String name, String imageUrl,String userId){
+    public Upload(String name, String imageUrl,String user,String model){
         if(name.trim().equals("")){
             name = "No Name";
         }
         mName = name;
         mImageUrl = imageUrl;
-        userId = userId;
+        userId = user;
+        mmodel = model;
     }
+
+    public Upload(String plate, String currentUser, String model) {
+        mName = plate;
+        userId = currentUser;
+        mmodel = model;
+    }
+
     public String getName() {
         return mName;
     }
@@ -35,5 +44,12 @@ public class Upload {
     }
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getModel() {
+        return mmodel;
+    }
+    public void setModel(String model) {
+        this.mmodel = model;
     }
 }

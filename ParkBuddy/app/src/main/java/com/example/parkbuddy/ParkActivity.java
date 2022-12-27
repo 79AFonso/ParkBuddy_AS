@@ -37,8 +37,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -75,10 +78,7 @@ public class ParkActivity extends AppCompatActivity {
 
 
         btnOpenDialog = findViewById(R.id.btnDialog);
-
         recyclerView = findViewById(R.id.recycler_view);
-
-
         databaseUsers = FirebaseDatabase.getInstance().getReference();
 
         // o nosso vermelho
@@ -91,6 +91,46 @@ public class ParkActivity extends AppCompatActivity {
 
         // Enable the "back" button in the app bar
         appBar.setDisplayHomeAsUpEnabled(true);
+
+        // Create a reference to the Firebase Realtime Database
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://parkbuddy-1b971-default-rtdb.europe-west1.firebasedatabase.app");
+        DatabaseReference itemsRef = database.getReference();
+
+        // Initialize the adapter in onCreate
+        adapter = new VehicleModelAdapter(arrVehicles,this,recyclerView);
+        recyclerView.setAdapter(adapter);
+
+        // Retrieve the data from the Realtime Database
+        itemsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Clear the arrVehicles list
+                arrVehicles.clear();
+
+                // Get the current user
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                String currentUserId = currentUser.getUid();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    VehicleModel item = snapshot.getValue(VehicleModel.class);
+                    // Only include data for the current user
+                    //if (item.getUserId().equals(currentUserId)) {
+                    arrVehicles.add(item);
+                    //}
+                }
+
+                // Notify the adapter of the data change
+                adapter.notifyDataSetChanged();
+
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Handle the error
+            }
+
+        });
 
         btnOpenDialog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +175,8 @@ public class ParkActivity extends AppCompatActivity {
                        String plate = txtPlate.getText().toString();
                        String img = String.valueOf(image_uri);
 
-                       arrVehicles.add(new VehicleModel(img,model,plate));
+                       arrVehicles.add(new VehicleModel(img,model,plate,currentUser.getUid()));
+                       // Upload(plate, taskSnapshot.getStorage().getDownloadUrl().toString(), currentUser,model);
 
                        uploadFile(img,model,plate);
 
@@ -161,7 +202,9 @@ public class ParkActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        adapter = new VehicleModelAdapter(arrVehicles, this);
+        Log.d("ARRAY VEHICLES", arrVehicles.toString());
+
+        adapter = new VehicleModelAdapter(arrVehicles, this,recyclerView);
         recyclerView.setAdapter(adapter);
 
 
@@ -247,7 +290,8 @@ public class ParkActivity extends AppCompatActivity {
 
     private void uploadFile(String img, String model, String plate){
         String currentUser = mAuth.getCurrentUser().getUid();  // tentar referenciar estes 2 fora
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://parkbuddy-1b971-default-rtdb.europe-west1.firebasedatabase.app");
+        DatabaseReference databaseUsers = database.getReference();
         if (image_uri != null){
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(image_uri));
 
@@ -257,13 +301,12 @@ public class ParkActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             Toast.makeText(ParkActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                            Upload upload = new Upload(plate,taskSnapshot.getStorage().getDownloadUrl().toString(),currentUser);
+                            Upload upload = new Upload(plate, taskSnapshot.getStorage().getDownloadUrl().toString(), currentUser,model);
                             // Generate a unique key for the new object
-                            String key = mDatabaseRef.child("uploads").push().getKey();
+                            String key = databaseUsers.push().getKey();
 
                             // Save the object to the database using the unique key
-                            mDatabaseRef.child("uploads").child(key).setValue(upload);
-                            // aqui é suposto adicionar na db mas nao ta a dar
+                            databaseUsers.child(key).setValue(upload);
                         }
             })
                     .addOnFailureListener(new OnFailureListener() {
@@ -279,7 +322,29 @@ public class ParkActivity extends AppCompatActivity {
                         }
                     });
         }else{
-            Toast.makeText(this,"No file selected",Toast.LENGTH_SHORT).show();
+            Upload upload = new Upload(plate, "No Image",currentUser,model);
+            // Generate a unique key for the new object
+            String key = databaseUsers.push().getKey();
+
+            // Save the object to the database using the unique key
+            databaseUsers.child(key).setValue(upload);
+            Toast.makeText(this,"No picture inserted.",Toast.LENGTH_SHORT).show();
         }
     }
 }
+
+/*
+como usar as imagens com o URL da firebase
+
+try {
+    URL url = new URL(downloadUrl);
+    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    connection.connect();
+    InputStream inputStream = connection.getInputStream();
+    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+    imageView.setImageBitmap(bitmap);
+} catch (IOException e) {
+    e.printStackTrace();
+}
+
+ */
