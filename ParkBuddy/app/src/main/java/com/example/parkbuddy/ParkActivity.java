@@ -114,9 +114,9 @@ public class ParkActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     VehicleModel item = snapshot.getValue(VehicleModel.class);
                     // Only include data for the current user
-                    //if (item.getUserId().equals(currentUserId)) {
-                    arrVehicles.add(item);
-                    //}
+                    if (item.getUserId().equals(currentUserId)) {
+                        arrVehicles.add(item);
+                    }
                 }
 
                 // Notify the adapter of the data change
