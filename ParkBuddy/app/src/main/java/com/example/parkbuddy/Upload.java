@@ -1,35 +1,35 @@
 package com.example.parkbuddy;
 
 public class Upload {
-    private String mName;
+    private String mPlate;
     private String mImageUrl;
     private String userId;
-    private String mmodel;
+    private String mModel;
 
     public Upload(){
         //empty constructor needed
     }
-    public Upload(String name, String imageUrl,String user,String model){
-        if(name.trim().equals("")){
-            name = "No Name";
+    public Upload(String plate, String imageUrl,String user,String model){
+        if(plate.trim().equals("")){
+            plate = "No Name";
         }
-        mName = name;
+        mPlate = plate;
         mImageUrl = imageUrl;
         userId = user;
-        mmodel = model;
+        mModel = model;
     }
 
     public Upload(String plate, String currentUser, String model) {
-        mName = plate;
+        mPlate = plate;
         userId = currentUser;
-        mmodel = model;
+        mModel = model;
     }
 
-    public String getName() {
-        return mName;
+    public String getPlate() {
+        return mPlate;
     }
-    public void setName(String name) {
-        mName = name;
+    public void setPlate(String plate) {
+        mPlate = plate;
     }
 
     public String getImageUrl() {
@@ -47,9 +47,9 @@ public class Upload {
     }
 
     public String getModel() {
-        return mmodel;
+        return mModel;
     }
     public void setModel(String model) {
-        this.mmodel = model;
+        this.mModel = model;
     }
 }

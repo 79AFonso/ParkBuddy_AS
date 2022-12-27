@@ -7,3 +7,5 @@ dar check in/out, pagar, contabilizar
 
 ----FALTA FAZER (IR ADICIONANDO QUANDO LEMBRAR)----
 SENSORES BIOMETRICOS,
+
+tornar matriculas unicas

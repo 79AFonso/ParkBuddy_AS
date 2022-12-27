@@ -258,7 +258,40 @@ public class ParkActivity extends AppCompatActivity {
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
             // Delete the item from your data source
             int position = viewHolder.getAdapterPosition();
+            VehicleModel model = arrVehicles.get(position);
+            String plate = String.valueOf(model.getPlate());
+
+            // Delete the item from the database
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://parkbuddy-1b971-default-rtdb.europe-west1.firebasedatabase.app");
+            DatabaseReference db = database.getReference(plate);
+
+
+            String fileUrl = model.getImageUrl();
+            Log.d("fileURLLLLL", fileUrl);
+
+            if(!fileUrl.equals("No Image")) {
+                StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(fileUrl);
+                // Delete the file
+                storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // File deleted successfully
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // An error occurred while deleting the file
+                        Toast.makeText(ParkActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            db.removeValue();
             arrVehicles.remove(position);
+
+            Toast.makeText(ParkActivity.this, "Deleted successfully", Toast.LENGTH_SHORT).show();
+
 
             // Notify the adapter of the change
             adapter.notifyItemRemoved(position);
@@ -315,7 +348,7 @@ public class ParkActivity extends AppCompatActivity {
                                     Toast.makeText(ParkActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
                                     Upload upload = new Upload(plate, imageUrl, currentUser,model);
                                     // Generate a unique key for the new object
-                                    String key = databaseUsers.push().getKey();
+                                    String key = plate;
 
                                     // Save the object to the database using the unique key
                                     databaseUsers.child(key).setValue(upload);
@@ -343,7 +376,7 @@ public class ParkActivity extends AppCompatActivity {
         }else{
             Upload upload = new Upload(plate, "No Image",currentUser,model);
             // Generate a unique key for the new object
-            String key = databaseUsers.push().getKey();
+            String key = plate;
 
             // Save the object to the database using the unique key
             databaseUsers.child(key).setValue(upload);

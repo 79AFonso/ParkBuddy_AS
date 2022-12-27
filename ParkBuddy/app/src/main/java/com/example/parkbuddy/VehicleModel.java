@@ -8,9 +8,9 @@ public class VehicleModel {
 
     @PropertyName("id")
     private String mId;
-    @PropertyName("name")
+    @PropertyName("model")
     private String mModel;
-    @PropertyName("type")
+    @PropertyName("plate")
     private String mPlate;
     @PropertyName("imageUrl")
     private String mImageUrl;
@@ -21,10 +21,10 @@ public class VehicleModel {
         // Default constructor required for calls to DataSnapshot.getValue(VehicleModel.class)
     }
 
-    public VehicleModel(String id, String name, String type, String imageUrl, String userId) {
+    public VehicleModel(String id, String plate, String model, String imageUrl, String userId) {
         mId = id;
-        mModel = name;
-        mPlate = type;
+        mPlate = plate;
+        mModel = model;
         mImageUrl = imageUrl;
         mUserId = userId;
     }
@@ -51,24 +51,24 @@ public class VehicleModel {
         mId = id;
     }
 
-    @PropertyName("name")
+    @PropertyName("model")
     public String getModel() {
         return mModel;
     }
 
-    @PropertyName("name")
-    public void setModel(String name) {
-        mModel = name;
+    @PropertyName("model")
+    public void setModel(String model) {
+        mModel = model;
     }
 
-    @PropertyName("type")
+    @PropertyName("plate")
     public String getPlate() {
         return mPlate;
     }
 
-    @PropertyName("type")
-    public void setPlate(String type) {
-        mPlate = type;
+    @PropertyName("plate")
+    public void setPlate(String plate) {
+        mPlate = plate;
     }
 
     @PropertyName("imageUrl")
