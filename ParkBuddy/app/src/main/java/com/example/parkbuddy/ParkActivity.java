@@ -288,6 +288,8 @@ public class ParkActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cr.getType(uri));
     }
 
+    private String imageUrl;
+
     private void uploadFile(String img, String model, String plate){
         String currentUser = mAuth.getCurrentUser().getUid();  // tentar referenciar estes 2 fora
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://parkbuddy-1b971-default-rtdb.europe-west1.firebasedatabase.app");
@@ -295,18 +297,35 @@ public class ParkActivity extends AppCompatActivity {
         if (image_uri != null){
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(image_uri));
 
+
             fileReference.putFile(image_uri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            Toast.makeText(ParkActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                            Upload upload = new Upload(plate, taskSnapshot.getStorage().getDownloadUrl().toString(), currentUser,model);
-                            // Generate a unique key for the new object
-                            String key = databaseUsers.push().getKey();
 
-                            // Save the object to the database using the unique key
-                            databaseUsers.child(key).setValue(upload);
+
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    // Got the download URL for the image
+                                    imageUrl = uri.toString();
+                                    Log.d("imageUrlWHAT",imageUrl);
+
+                                    Toast.makeText(ParkActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                                    Upload upload = new Upload(plate, imageUrl, currentUser,model);
+                                    // Generate a unique key for the new object
+                                    String key = databaseUsers.push().getKey();
+
+                                    // Save the object to the database using the unique key
+                                    databaseUsers.child(key).setValue(upload);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle any errors
+                                }
+                            });
                         }
             })
                     .addOnFailureListener(new OnFailureListener() {

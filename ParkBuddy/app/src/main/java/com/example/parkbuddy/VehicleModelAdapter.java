@@ -1,5 +1,6 @@
 package com.example.parkbuddy;
 
+import static android.content.ContentValues.TAG;
 import static androidx.core.content.ContextCompat.startActivity;
 
 import android.Manifest;
@@ -9,6 +10,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +39,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +85,14 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
         // Set the text and image for the views
         holder.modelTextView.setText(vehicleModel.getModel());
         holder.plateTextView.setText(vehicleModel.getPlate());
+
+
+        // Load the image in the background using the AsyncTask
+        //new DownloadImageTask(holder.imageView).execute(vehicleModel.getImageUrl());
+
+
         Glide.with(mContext).load(vehicleModel.getImageUrl()).into(holder.imageView);
+
 
         holder.llRow.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -157,6 +173,7 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
             btnImage = itemView.findViewById(R.id.btnImage);
         }
     }
+
 }
 
 
