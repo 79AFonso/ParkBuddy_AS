@@ -9,3 +9,5 @@ dar check in/out, pagar, contabilizar
 SENSORES BIOMETRICOS,
 
 tornar matriculas unicas
+
+adaptar o update(longClick) com a firebase (so meti o add e o delete ainda)
