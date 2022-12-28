@@ -49,7 +49,76 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView2"></LinearLayout>
+                        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="53dp"
+                            android:layout_height="43dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="2dp"
+                            app:srcCompat="@drawable/gear" />
+
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:gravity="center"
+                            android:text="You have x parked cars at the moment"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                        <ImageView
+                            android:layout_width="19dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_horizontal"
+                            app:srcCompat="@android:drawable/alert_dark_frame" />
+
+
+                        <Button
+                            android:id="@+id/btnEditPassword"
+                            android:layout_width="157dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:backgroundTint="#A0282C"
+                            android:text="Change Password" />
+
+                        <ImageView
+                            android:layout_width="19dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_horizontal"
+                            app:srcCompat="@android:drawable/alert_dark_frame" />
+
+                        <Button
+                            android:id="@+id/btnEditEmail"
+                            android:layout_width="157dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:backgroundTint="#A0282C"
+                            android:text="Change Email" />
+
+                        <ImageView
+                            android:layout_width="19dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_horizontal"
+                            app:srcCompat="@android:drawable/alert_dark_frame" />
+
+                        <Button
+                            android:id="@+id/btnLogout"
+                            android:layout_width="157dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:backgroundTint="#A0282C"
+                            android:text="Logout" />
+
+                        <ImageView
+                            android:layout_width="19dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_horizontal"
+                            app:srcCompat="@android:drawable/alert_dark_frame" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/imageView3"
@@ -64,8 +133,8 @@
 
                     <TextView
                         android:id="@+id/textView2"
-                        android:layout_width="94dp"
-                        android:layout_height="73dp"
+                        android:layout_width="105dp"
+                        android:layout_height="30dp"
                         android:text="TextView"
                         android:textColor="#F6F3F3"
                         android:textSize="20sp"
