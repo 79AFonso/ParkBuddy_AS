@@ -175,18 +175,29 @@ public class ParkActivity extends AppCompatActivity {
                        String plate = txtPlate.getText().toString();
                        String img = String.valueOf(image_uri);
 
-                       arrVehicles.add(new VehicleModel(img,model,plate,currentUser.getUid()));
-                       // Upload(plate, taskSnapshot.getStorage().getDownloadUrl().toString(), currentUser,model);
-
-                       uploadFile(img,model,plate);
-
-                       adapter.notifyItemInserted(arrVehicles.size() - 1);
-
-                       recyclerView.scrollToPosition(arrVehicles.size() - 1);
+                       Boolean inUse = false;
 
 
+                       for(int i = 0; i < arrVehicles.size(); i++) {
+                           if(plate.equals(arrVehicles.get(i).getPlate())) {
+                               inUse = true;
+                               Toast.makeText(ParkActivity.this, "Car Plate already in use",Toast.LENGTH_SHORT).show();
 
-                       dialog.dismiss();
+                           }
+                       }
+                       if(!inUse)
+                       {
+                           arrVehicles.add(new VehicleModel(img,model,plate,currentUser.getUid()));
+                           // Upload(plate, taskSnapshot.getStorage().getDownloadUrl().toString(), currentUser,model);
+
+                           uploadFile(img,model,plate);
+
+                           adapter.notifyItemInserted(arrVehicles.size() - 1);
+
+                           recyclerView.scrollToPosition(arrVehicles.size() - 1);
+
+                           dialog.dismiss();
+                       }
                    }
                 });
 
