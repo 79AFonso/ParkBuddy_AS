@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 public class InfoActivity extends AppCompatActivity {
 
     ImageView vehicleImage;
+    Button shareBtn;
 
     VehicleModel actualVehicle;
 
@@ -44,6 +45,15 @@ public class InfoActivity extends AppCompatActivity {
 
 
         vehicleImage = (ImageView) findViewById(R.id.info_image);
+        shareBtn = (Button) findViewById(R.id.btn_share);
+
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goShare = new Intent(InfoActivity.this, ShareQrActivity.class);
+                startActivity(goShare);
+            }
+        });
 
         // o nosso vermelho
         int color = Color.parseColor("#A0282C");

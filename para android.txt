@@ -8,6 +8,6 @@ dar check in/out, pagar, contabilizar
 ----FALTA FAZER (IR ADICIONANDO QUANDO LEMBRAR)----
 SENSORES BIOMETRICOS,
 
-tornar matriculas unicas
-
 adaptar o update(longClick) com a firebase (so meti o add e o delete ainda)
+
+sign in -> ir para login (ta a ir para o registo)

@@ -33,6 +33,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".ShareQrActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".SignUpActivity"
             android:exported="false">
             <meta-data
