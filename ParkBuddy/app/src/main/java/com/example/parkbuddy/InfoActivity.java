@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,10 +30,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 public class InfoActivity extends AppCompatActivity {
 
     ImageView vehicleImage;
     Button shareBtn;
+    TextView txtInfo;
+
+    double latitude;
+    double longitude;
+    String fullAddress;
 
     VehicleModel actualVehicle;
 
@@ -46,6 +58,7 @@ public class InfoActivity extends AppCompatActivity {
 
         vehicleImage = (ImageView) findViewById(R.id.info_image);
         shareBtn = (Button) findViewById(R.id.btn_share);
+        txtInfo = (TextView) findViewById(R.id.txtInfo);
 
         shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +111,27 @@ public class InfoActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }
 
+                latitude = actualVehicle.getLatitude();
+                longitude = actualVehicle.getLongitude();
+
+                Geocoder geocoder = new Geocoder(InfoActivity.this, Locale.getDefault());
+                List<Address> addresses = null;
+                try {
+                    addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (addresses.size() > 0) {
+                    Address address = addresses.get(0);
+                    //String placeName = address.getLocality();
+                    fullAddress = address.getAddressLine(0);
+                    txtInfo.setText(fullAddress);
+                }
+
+
+            }
 
             @Override
             public void onCancelled(DatabaseError error) {
@@ -107,6 +139,7 @@ public class InfoActivity extends AppCompatActivity {
             }
 
         });
+
     }
 
     @Override
