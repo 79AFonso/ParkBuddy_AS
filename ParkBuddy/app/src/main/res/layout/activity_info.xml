@@ -43,10 +43,10 @@
         android:text="Share" />
 
     <Button
-        android:id="@+id/btn_more"
+        android:id="@+id/btn_paid"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#A0282C"
-        android:text="MORE INFO" />
+        android:text="PAID PARKING" />
 
 </LinearLayout>

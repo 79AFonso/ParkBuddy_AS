@@ -6,8 +6,12 @@ dar check in/out, pagar, contabilizar
 (simular a cancela)
 
 ----FALTA FAZER (IR ADICIONANDO QUANDO LEMBRAR)----
+
 SENSORES BIOMETRICOS,
 
 adaptar o update(longClick) com a firebase (so meti o add e o delete ainda)
 
-sign in -> ir para login (ta a ir para o registo)
+fazer a funcao de quando lemos o qr code
+
+para a pagina PAID PARKING pensei fazer um timer que conta Start/Stop
+e metesse o preço/h e aquilo faz as contas de quanto temos de pagar

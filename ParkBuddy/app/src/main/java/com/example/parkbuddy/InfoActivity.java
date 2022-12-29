@@ -38,6 +38,7 @@ public class InfoActivity extends AppCompatActivity {
 
     ImageView vehicleImage;
     Button shareBtn;
+    Button paidBtn;
     TextView txtInfo;
 
     double latitude;
@@ -59,6 +60,7 @@ public class InfoActivity extends AppCompatActivity {
         vehicleImage = (ImageView) findViewById(R.id.info_image);
         shareBtn = (Button) findViewById(R.id.btn_share);
         txtInfo = (TextView) findViewById(R.id.txtInfo);
+        paidBtn = (Button) findViewById(R.id.btn_paid);
 
         // o nosso vermelho
         int color = Color.parseColor("#A0282C");
@@ -138,6 +140,15 @@ public class InfoActivity extends AppCompatActivity {
                 Intent goShare = new Intent(InfoActivity.this, ShareQrActivity.class);
                 goShare.putExtra("matricula", matricula);
                 startActivity(goShare);
+            }
+        });
+
+        paidBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InfoActivity.this, PaidParkingActivity.class);
+                intent.putExtra("matricula", matricula);
+                startActivity(intent);
             }
         });
 
