@@ -16,6 +16,10 @@ public class VehicleModel {
     private String mImageUrl;
     @PropertyName("userId")
     private String mUserId;
+    @PropertyName("latitude")
+    private double mLatitude;
+    @PropertyName("longitude")
+    private double mLongitude;
 
     public VehicleModel() {
         // Default constructor required for calls to DataSnapshot.getValue(VehicleModel.class)
@@ -34,6 +38,15 @@ public class VehicleModel {
         mModel = model;
         mPlate = plate;
         mUserId = uid;
+    }
+
+    public VehicleModel(String img, String model, String plate, String uid,double latitude,double longitude) {
+        mImageUrl = img;
+        mModel = model;
+        mPlate = plate;
+        mUserId = uid;
+        mLatitude = latitude;
+        mLongitude = longitude;
     }
 
     public VehicleModel(String model, String plate) {
@@ -89,5 +102,25 @@ public class VehicleModel {
     @PropertyName("userId")
     public void setUserId(String userId) {
         mUserId = userId;
+    }
+
+    @PropertyName("latitude")
+    public double getLatitude() {
+        return mLatitude;
+    }
+
+    @PropertyName("latitude")
+    public void setLatitude(double latitude) {
+        this.mLatitude = latitude;
+    }
+
+    @PropertyName("longitude")
+    public double getLongitude() {
+        return mLongitude;
+    }
+
+    @PropertyName("longitude")
+    public void setLongitude(double longitude) {
+        this.mLongitude = longitude;
     }
 }

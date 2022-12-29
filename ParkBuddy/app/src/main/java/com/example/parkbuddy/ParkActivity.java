@@ -5,10 +5,14 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +27,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
 
@@ -64,8 +70,9 @@ public class ParkActivity extends AppCompatActivity {
     private Button btnTakePicture;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+    double latitude,longitude;
 
-
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +98,40 @@ public class ParkActivity extends AppCompatActivity {
 
         // Enable the "back" button in the app bar
         appBar.setDisplayHomeAsUpEnabled(true);
+
+
+        // Get a reference to the LocationManager
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+        // Check if the location permission has been granted
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            // Request location updates
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    // Do something with the new location
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) { }
+
+                @Override
+                public void onProviderEnabled(String provider) { }
+
+                @Override
+                public void onProviderDisabled(String provider) { }
+
+            });
+        } else {
+            // Request the location permission
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+
+
 
         // Create a reference to the Firebase Realtime Database
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://parkbuddy-1b971-default-rtdb.europe-west1.firebasedatabase.app");
@@ -357,7 +398,7 @@ public class ParkActivity extends AppCompatActivity {
                                     Log.d("imageUrlWHAT",imageUrl);
 
                                     Toast.makeText(ParkActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                                    Upload upload = new Upload(plate, imageUrl, currentUser,model);
+                                    Upload upload = new Upload(plate, imageUrl, currentUser,model,latitude,longitude);
                                     // Generate a unique key for the new object
                                     String key = plate;
 
@@ -385,7 +426,7 @@ public class ParkActivity extends AppCompatActivity {
                         }
                     });
         }else{
-            Upload upload = new Upload(plate, "No Image",currentUser,model);
+            Upload upload = new Upload(plate, "No Image",currentUser,model,latitude,longitude);
             // Generate a unique key for the new object
             String key = plate;
 
@@ -394,6 +435,9 @@ public class ParkActivity extends AppCompatActivity {
             Toast.makeText(this,"No picture inserted.",Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
 }
 
 /*

@@ -5,11 +5,13 @@ public class Upload {
     private String mImageUrl;
     private String userId;
     private String mModel;
+    private double mLatitude;
+    private double mLongitude;
 
     public Upload(){
         //empty constructor needed
     }
-    public Upload(String plate, String imageUrl,String user,String model){
+    public Upload(String plate, String imageUrl,String user,String model,double latitude,double longitude){
         if(plate.trim().equals("")){
             plate = "No Name";
         }
@@ -17,6 +19,8 @@ public class Upload {
         mImageUrl = imageUrl;
         userId = user;
         mModel = model;
+        mLatitude = latitude;
+        mLongitude = longitude;
     }
 
     public Upload(String plate, String currentUser, String model) {
@@ -51,5 +55,18 @@ public class Upload {
     }
     public void setModel(String model) {
         this.mModel = model;
+    }
+
+    public double getLatitude() {
+        return mLatitude;
+    }
+    public void setLatitude(double latitude) {
+        this.mLatitude = latitude;
+    }
+    public double getLongitude() {
+        return mLongitude;
+    }
+    public void setLongitude(double longitude) {
+        this.mLongitude = longitude;
     }
 }
