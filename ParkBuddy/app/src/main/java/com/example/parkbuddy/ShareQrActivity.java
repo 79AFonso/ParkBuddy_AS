@@ -1,10 +1,13 @@
 package com.example.parkbuddy;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -12,14 +15,34 @@ import android.widget.ImageView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 
 public class ShareQrActivity extends AppCompatActivity {
+
+    double latitude;
+    double longitude;
+
+    // o que vai ter no qr
+    String data = "Waiting for data";
+
+    VehicleModel actualVehicle;
 
 
     @Override
@@ -41,45 +64,77 @@ public class ShareQrActivity extends AppCompatActivity {
 
         ImageView imageView = findViewById(R.id.image_shareqr);
 
+        Intent myIntent = getIntent(); // gets the previously created intent
+        String matricula = myIntent.getStringExtra("matricula");
 
-        // o que vai ter no qr
-        String data = "ola";
+        // Create a reference to the Firebase Realtime Database
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://parkbuddy-1b971-default-rtdb.europe-west1.firebasedatabase.app");
+        DatabaseReference itemsRef = database.getReference();
 
-        try {
-            Paint paint = new Paint();
+        // Retrieve the data from the Realtime Database
+        itemsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get the current user
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                String currentUserId = currentUser.getUid();
 
-            // Encode the data and get a BitMatrix object
-            BitMatrix bitMatrix = new QRCodeWriter().encode(data, BarcodeFormat.QR_CODE, 2000, 2000);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    VehicleModel item = snapshot.getValue(VehicleModel.class);
+                    // Only include data for the current user
+                    if (item.getUserId().equals(currentUserId)) {
+                        if(item.getPlate().equals(matricula))
+                        {
+                            actualVehicle = item;
+                            latitude = actualVehicle.getLatitude();
+                            longitude = actualVehicle.getLongitude();
 
-            // Convert the BitMatrix object to a Bitmap object
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                            data = latitude + "," + longitude;
 
-            Canvas canvas = new Canvas(bitmap);
+                            try {
+                                Paint paint = new Paint();
 
-            // Set the color of the canvas to the desired color
-            //canvas.drawColor(Color.);
-            paint.setColor(color);
+                                // Encode the data and get a BitMatrix object
+                                BitMatrix bitMatrix = new QRCodeWriter().encode(data, BarcodeFormat.QR_CODE, 2000, 2000);
 
-            // Draw the QR code on top of the canvas
-            for (int y = 0; y < bitMatrix.getHeight(); y++) {
-                for (int x = 0; x < bitMatrix.getWidth(); x++) {
-                    if (bitMatrix.get(x, y)) {
-                        canvas.drawPoint(x, y, paint);
+                                // Convert the BitMatrix object to a Bitmap object
+                                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+
+                                Canvas canvas = new Canvas(bitmap);
+
+                                // Set the color of the canvas to the desired color
+                                //canvas.drawColor(Color.);
+                                paint.setColor(color);
+
+                                // Draw the QR code on top of the canvas
+                                for (int y = 0; y < bitMatrix.getHeight(); y++) {
+                                    for (int x = 0; x < bitMatrix.getWidth(); x++) {
+                                        if (bitMatrix.get(x, y)) {
+                                            canvas.drawPoint(x, y, paint);
+                                        }
+                                    }
+                                }
+
+
+
+
+                                // Set the Bitmap object as the content of the ImageView
+                                imageView.setImageBitmap(bitmap);
+                            } catch (WriterException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             }
 
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Handle the error
+            }
 
-
-
-            // Set the Bitmap object as the content of the ImageView
-            imageView.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
-
-
+        });
     }
 
     @Override

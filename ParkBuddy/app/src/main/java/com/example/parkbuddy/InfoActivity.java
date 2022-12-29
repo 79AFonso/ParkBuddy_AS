@@ -60,14 +60,6 @@ public class InfoActivity extends AppCompatActivity {
         shareBtn = (Button) findViewById(R.id.btn_share);
         txtInfo = (TextView) findViewById(R.id.txtInfo);
 
-        shareBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goShare = new Intent(InfoActivity.this, ShareQrActivity.class);
-                startActivity(goShare);
-            }
-        });
-
         // o nosso vermelho
         int color = Color.parseColor("#A0282C");
 
@@ -138,6 +130,15 @@ public class InfoActivity extends AppCompatActivity {
                 // Handle the error
             }
 
+        });
+
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goShare = new Intent(InfoActivity.this, ShareQrActivity.class);
+                goShare.putExtra("matricula", matricula);
+                startActivity(goShare);
+            }
         });
 
     }
