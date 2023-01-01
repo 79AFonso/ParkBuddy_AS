@@ -20,62 +20,67 @@
         android:id="@+id/imageView"
         android:layout_width="327dp"
         android:layout_height="87dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="43dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_no_background"/>
+        app:layout_constraintVertical_bias="0.057"
+        app:srcCompat="@drawable/logo_no_background" />
 
     <Button
         android:id="@+id/parkBtn"
         android:layout_width="315dp"
         android:layout_height="96dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="162dp"
-        android:text="Park"
         android:drawableLeft="@drawable/parked_car"
         android:drawablePadding="10dp"
         android:elevation="10dp"
+        android:text="Park"
+        app:layout_constraintBottom_toBottomOf="@+id/menu_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.247" />
 
     <Button
         android:id="@+id/scanBtn"
         android:layout_width="315dp"
         android:layout_height="96dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="289dp"
         android:drawableLeft="@drawable/qr_code"
         android:drawablePadding="10dp"
-        android:text="Scan Qr"
         android:elevation="4dp"
+        android:text="Scan Qr"
+        app:layout_constraintBottom_toBottomOf="@+id/menu_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.455" />
 
     <Button
         android:id="@+id/statisticsBtn"
         android:layout_width="315dp"
         android:layout_height="96dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="421dp"
-        android:text="Statistics"
         android:drawableLeft="@drawable/walking_man"
         android:drawablePadding="10dp"
         android:elevation="10dp"
+        android:text="Statistics"
+        app:layout_constraintBottom_toBottomOf="@+id/menu_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.67" />
 
     <Button
         android:id="@+id/profileBtn"
         android:layout_width="315dp"
         android:layout_height="96dp"
-        android:elevation="10dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="551dp"
-        android:text="Profile"
         android:drawableLeft="@drawable/gear"
         android:drawablePadding="10dp"
+        android:elevation="10dp"
+        android:text="Profile"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.877" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
