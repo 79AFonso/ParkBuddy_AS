@@ -15,3 +15,9 @@ fazer a funcao de quando lemos o qr code
 
 para a pagina PAID PARKING pensei fazer um timer que conta Start/Stop
 e metesse o preço/h e aquilo faz as contas de quanto temos de pagar
+
+
+
+------
+
+adicionar key do maps no local.properties
