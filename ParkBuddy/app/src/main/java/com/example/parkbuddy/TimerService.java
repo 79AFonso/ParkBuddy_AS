@@ -79,6 +79,10 @@ public class TimerService extends Service {
                     Log.d(TAG, "Timer task started");
                     // Update the timer value
                     timerValue++;
+                    Intent timerIntent = new Intent();
+                    timerIntent.setAction("com.example.parkbuddy.TIMER_UPDATE");
+                    timerIntent.putExtra("timerValue", timerValue);
+                    sendBroadcast(timerIntent);
                 }
             };
             timer.scheduleAtFixedRate(timerTask, 0, 1000); // Update the timer value every second

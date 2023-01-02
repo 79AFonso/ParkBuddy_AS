@@ -63,20 +63,17 @@ public class PaidParkingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paid);
 
-        // o nosso vermelho
-        int color = Color.parseColor("#A0282C");
-
-        // Get the app bar for the activity
-        ActionBar appBar = getSupportActionBar();
-        appBar.setBackgroundDrawable(new ColorDrawable(color));
-        appBar.setTitle("Paid Parking");
-
-        // Enable the "back" button in the app bar
-        appBar.setDisplayHomeAsUpEnabled(true);
-
         txtTimer = findViewById(R.id.txtView_timer);
         btnStart = findViewById(R.id.btn_start);
         btnStop = findViewById(R.id.btn_stop);
+
+        int color = Color.parseColor("#A0282C");
+        ActionBar appBar = getSupportActionBar();
+        appBar.setBackgroundDrawable(new ColorDrawable(color));
+        appBar.setTitle("PAID PARKING");
+
+        // Enable the "back" button in the app bar
+        appBar.setDisplayHomeAsUpEnabled(true);
 
         // Bind to the TimerService
         Intent intent = new Intent(this, TimerService.class);
@@ -87,6 +84,8 @@ public class PaidParkingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isBound) {
+                    Intent serviceIntent = new Intent(PaidParkingActivity.this, TimerService.class);
+                    startService(serviceIntent);
                     timerService.startTimer();
                 }
             }
@@ -96,27 +95,16 @@ public class PaidParkingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (isBound) {
                     timerService.stopTimer();
+                    Intent serviceIntent = new Intent(PaidParkingActivity.this, TimerService.class);
+                    stopService(serviceIntent);
                 }
             }
         });
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart");
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume");
-        if (isBound) {
-            Log.d(TAG, String.valueOf(timerService.getTimerValue()));
-            // Update the timer  value in the text view
-            txtTimer.setText(String.valueOf(timerService.getTimerValue()));
-        }
-
         // Register the broadcast receiver to receive updates from the timer service
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.example.parkbuddy.TIMER_UPDATE");
@@ -126,22 +114,18 @@ public class PaidParkingActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause");
         // Unregister the broadcast receiver
         unregisterReceiver(timerReceiver);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop");
+    protected void onDestroy() {
+        super.onDestroy();
         if (isBound) {
-            // Unbind from the service
             unbindService(serviceConnection);
             isBound = false;
         }
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle "up" button click
@@ -152,6 +136,5 @@ public class PaidParkingActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
-
-
