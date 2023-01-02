@@ -1,5 +1,8 @@
 package com.example.parkbuddy;
 
+import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -18,8 +22,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class PaidParkingActivity extends AppCompatActivity {
+
+
 
     private static final String TAG = "PaidParkingActivity";
 
@@ -27,6 +34,7 @@ public class PaidParkingActivity extends AppCompatActivity {
     private Button btnStart;
     private Button btnStop;
 
+    int timerValue;
     // Flag to indicate if the service is bound
     private boolean isBound = false;
 
@@ -53,7 +61,7 @@ public class PaidParkingActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Update the timer value in the text view
-            int timerValue = intent.getIntExtra("timerValue", 0);
+            timerValue = intent.getIntExtra("timerValue", 0);
             txtTimer.setText(String.valueOf(timerValue));
         }
     };
@@ -61,6 +69,7 @@ public class PaidParkingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_paid);
 
         txtTimer = findViewById(R.id.txtView_timer);
@@ -79,13 +88,14 @@ public class PaidParkingActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TimerService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
+
         // Set up click listeners for the buttons
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isBound) {
                     Intent serviceIntent = new Intent(PaidParkingActivity.this, TimerService.class);
-                    startService(serviceIntent);
+                    ContextCompat.startForegroundService(PaidParkingActivity.this, serviceIntent);
                     timerService.startTimer();
                 }
             }
@@ -93,6 +103,12 @@ public class PaidParkingActivity extends AppCompatActivity {
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int time = timerValue;  // segundos
+
+                // fazer input preço/hora
+
+                Log.d(TAG, "time: " + time);
+
                 if (isBound) {
                     timerService.stopTimer();
                     Intent serviceIntent = new Intent(PaidParkingActivity.this, TimerService.class);

@@ -1,19 +1,27 @@
 package com.example.parkbuddy;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import static com.example.parkbuddy.channelApp.CHANNEL_ID;
+
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class TimerService extends Service {
-
-    private static final String TAG = "TimerService";
 
     // Binder given to clients
     private final IBinder binder = (IBinder) new TimerBinder();
@@ -49,8 +57,20 @@ public class TimerService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand");
 
-
         if (!isRunning) {
+
+            Intent notificationIntent = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                    0, notificationIntent, 0);
+
+            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentTitle("PAID PARKING TIMER")
+                    .setContentText(String.valueOf(timerValue))
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setContentIntent(pendingIntent)
+                    .build();
+
+            startForeground(1, notification);
             startTimer();
             isRunning = true;
         }
@@ -58,6 +78,7 @@ public class TimerService extends Service {
         // Return "sticky" to keep the service running until it is explicitly stopped
         return START_STICKY;
     }
+
 
     @Override
     public void onDestroy() {
@@ -109,5 +130,7 @@ public class TimerService extends Service {
     public int getTimerValue() {
         return timerValue;
     }
+
+
 }
 
