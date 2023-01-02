@@ -1,5 +1,7 @@
 package com.example.parkbuddy;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -114,6 +116,7 @@ public class ParkActivity extends AppCompatActivity {
                     // Do something with the new location
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
+                    Log.d("LATITUDE", "Latitude: " + latitude + " Longitude: " + longitude);
                 }
 
                 @Override
@@ -398,6 +401,7 @@ public class ParkActivity extends AppCompatActivity {
                                     Log.d("imageUrlWHAT",imageUrl);
 
                                     Toast.makeText(ParkActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                                    Log.d("coordenadas", String.valueOf(latitude));
                                     Upload upload = new Upload(plate, imageUrl, currentUser,model,latitude,longitude);
                                     // Generate a unique key for the new object
                                     String key = plate;

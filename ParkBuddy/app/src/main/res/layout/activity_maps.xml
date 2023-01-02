@@ -33,6 +33,7 @@
                 android:tint="@android:color/white"
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#A0282C"
+                android:src="@drawable/ic_baseline_directions_walk_24"
                 android:layout_gravity="start|bottom"
                 android:layout_margin="16dp" />
 

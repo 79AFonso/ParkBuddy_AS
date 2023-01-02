@@ -35,6 +35,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -165,7 +167,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Add a marker in Sydney and move the camera
         car = new LatLng(Double.parseDouble(localizacao[0]), Double.parseDouble(localizacao[1]));
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        mMap.addMarker(new MarkerOptions().position(car).title(localizacao[2]));
+        mMap.addMarker(new MarkerOptions().position(car).title(localizacao[2]).icon(getMarkerIcon("#2846A0")));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(car, 15));
 
     }
@@ -339,5 +341,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             poly.add(p);
         }
         return poly;
+    }
+    // method definition
+    public BitmapDescriptor getMarkerIcon(String color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(Color.parseColor(color), hsv);
+        return BitmapDescriptorFactory.defaultMarker(hsv[0]);
     }
 }
