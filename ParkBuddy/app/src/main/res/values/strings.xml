@@ -4,5 +4,6 @@
     <string name="swipe_dismiss_behavior">androidx.coordinator layout.widget.SwipeDismissBehavior</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="getpath">GET PATH</string>
+    <string name="amount_to_be_paid">Amount to be paid</string>
 
 </resources>

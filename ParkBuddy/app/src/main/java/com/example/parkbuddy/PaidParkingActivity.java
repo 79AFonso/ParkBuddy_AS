@@ -28,6 +28,8 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.DecimalFormat;
+
 public class PaidParkingActivity extends AppCompatActivity {
 
 
@@ -145,6 +147,7 @@ public class PaidParkingActivity extends AppCompatActivity {
                 builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
                     // When the user click yes button then app will close
                     Intent intent = new Intent(PaidParkingActivity.this, PaymentActivity.class);
+                    intent.putExtra("preco", String.valueOf(String.format("%.2f", precoF)));
                     startActivity(intent);
                 });
 

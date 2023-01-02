@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,8 +25,10 @@ import java.util.Locale;
 public class PaymentActivity extends AppCompatActivity {
 
     // initializing variables for our edit text and button.
-    private EditText amountEdt, upiEdt, nameEdt, descEdt;
-    private TextView transactionDetailsTV;
+    private EditText upiEdt, nameEdt, descEdt;
+    private TextView transactionDetailsTV,amountEdt;
+    float precoF;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,11 @@ public class PaymentActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault());
         String transcId = df.format(c);
 
+        Intent myIntent = getIntent(); // gets the previously created intent
+        String precoF = myIntent.getStringExtra("preco");
+
+        amountEdt.setText("Price: " + precoF + "EUR");
+
         // on below line we are adding click listener for our payment button.
         makePaymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +81,7 @@ public class PaymentActivity extends AppCompatActivity {
                     // we are calling method to make payment.
                     Toast.makeText(PaymentActivity.this, "PAYMENT SUCCESSFULLY COMPLETED", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(PaymentActivity.this, MainMenu.class);
+                    startActivity(intent);
                 }
             }
         });
