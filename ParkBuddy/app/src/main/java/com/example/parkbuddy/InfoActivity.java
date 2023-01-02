@@ -158,7 +158,7 @@ public class InfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InfoActivity.this, MapsActivity.class);
-                intent.putExtra("localizacao", latitude+" "+longitude);
+                intent.putExtra("localizacao", latitude+" "+longitude+ " "+ matricula);
                 startActivity(intent);
             }
         });

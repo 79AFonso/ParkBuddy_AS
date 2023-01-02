@@ -165,7 +165,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Add a marker in Sydney and move the camera
         car = new LatLng(Double.parseDouble(localizacao[0]), Double.parseDouble(localizacao[1]));
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        mMap.addMarker(new MarkerOptions().position(car).title("Car Marker"));
+        mMap.addMarker(new MarkerOptions().position(car).title(localizacao[2]));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(car, 15));
 
     }

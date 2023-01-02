@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    Button btnLogOut;
+    Button btnLogOut, btnEditPassword, btnEditMail;
     FirebaseAuth mAuth;
     TextView textMail, textparkedCars;
     int count = 0;
@@ -43,6 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
         appBar.setDisplayHomeAsUpEnabled(true);
 
         btnLogOut = findViewById(R.id.btnLogout);
+        btnEditPassword = findViewById(R.id.btnEditPassword);
+        btnEditMail = findViewById(R.id.btnEditEmail);
         textMail = findViewById(R.id.textEmail);
         textparkedCars = findViewById(R.id.textParkedCars);
         mAuth = FirebaseAuth.getInstance();
@@ -56,8 +58,17 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
         });
 
+        btnEditPassword.setOnClickListener(view ->{
+            openDialog();
+        });
 
 
+
+    }
+
+    private void openDialog() {
+        PwDialog pwDialog = new PwDialog();
+        pwDialog.show(getSupportFragmentManager(), "test");
     }
 
     @Override
@@ -96,8 +107,7 @@ public class ProfileActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     VehicleModel item = snapshot.getValue(VehicleModel.class);
                     // Only include data for the current user
-                    System.out.println(item.getUserId());
-                    System.out.println(currentUserId);
+
                     if (item.getUserId().equals(currentUserId)) {
                         count++;
                     }
@@ -117,4 +127,6 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
+    
+    
 }
