@@ -9,6 +9,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,7 @@ public class SimplePedometerActivity extends AppCompatActivity implements Sensor
     private SimpleStepDetector simpleStepDetector;
     private SensorManager sensorManager;
     private Sensor accel;
+    private Button btn_rstCounter;
     private static final String TEXT_NUM_STEPS = "Number of Steps: ";
     private int numSteps;
 
@@ -41,12 +44,20 @@ public class SimplePedometerActivity extends AppCompatActivity implements Sensor
 
         textView = findViewById(R.id.step_count);
         textView.setTextSize(30);
+        btn_rstCounter = findViewById(R.id.reset_button);
 
         // Get an instance of the SensorManager
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         simpleStepDetector = new SimpleStepDetector();
         simpleStepDetector.registerListener(this);
+
+        btn_rstCounter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numSteps=0;
+            }
+        });
     }
 
     @Override
@@ -60,19 +71,18 @@ public class SimplePedometerActivity extends AppCompatActivity implements Sensor
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
-        numSteps = 0;
         textView.setText(TEXT_NUM_STEPS + numSteps);
-        sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(this);
+        textView.setText(TEXT_NUM_STEPS + numSteps);
+        sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override

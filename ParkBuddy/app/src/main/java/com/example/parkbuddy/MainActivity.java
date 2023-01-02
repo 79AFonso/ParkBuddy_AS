@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import java.util.concurrent.Executor;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private Executor executor;
@@ -61,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Biometric Authentication")
                         .setSubtitle("Login using fingerprint Authentication")
@@ -74,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Do something when the button is clicked
-
 
                 FingerprintManager fingerprintManager = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -93,13 +89,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
     }
-
-
-
 }
