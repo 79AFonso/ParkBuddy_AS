@@ -8,15 +8,9 @@ dar check in/out, pagar, contabilizar
 ----FALTA FAZER (IR ADICIONANDO QUANDO LEMBRAR)----
 
 mudar a UI dos botoes do mapa (cores e texto GET PATH)
-
-SENSORES BIOMETRICOS,
+mudar cor dos markers
 
 adaptar o update(longClick) com a firebase (so meti o add e o delete ainda)
-
-para a pagina PAID PARKING pensei fazer um timer que conta Start/Stop
-e metesse o preço/h e aquilo faz as contas de quanto temos de pagar
-
-talvez meter a matricula do carro no mapa (mais facil encontrar)
 
 ------
 

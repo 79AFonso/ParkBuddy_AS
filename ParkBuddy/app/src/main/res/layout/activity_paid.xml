@@ -5,10 +5,22 @@
     android:orientation="vertical"
     android:gravity="center">
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/txtPreco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:backgroundTint="@color/nossored"
+        android:hint="Price per hour"
+        android:inputType="numberDecimal"/>
+
     <TextView
         android:id="@+id/txtView_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:text="0" />
     <Button
         android:id="@+id/btn_start"
