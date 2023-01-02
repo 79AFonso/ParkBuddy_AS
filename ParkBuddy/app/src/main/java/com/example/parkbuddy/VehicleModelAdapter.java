@@ -122,6 +122,8 @@ public class VehicleModelAdapter extends RecyclerView.Adapter<VehicleModelAdapte
 
                 btnAdd.setText("Update");
 
+                String tmpText = txtPlate.getText().toString();
+
                 txtModel.setText((mVehicleModels.get(adapterPosition)).getModel());
                 txtPlate.setText((mVehicleModels.get(adapterPosition)).getPlate());
 
