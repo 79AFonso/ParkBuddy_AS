@@ -18,32 +18,48 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/start_button"
+            <TextView
+                android:id="@+id/step_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start Pedometer" />
+                android:paddingTop="100dp"
+                android:text="0"
+                android:layout_gravity="center"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="350dp"
+                android:layout_gravity="center"
+                >
 
-            <Button
-                android:id="@+id/stop_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Stop Pedometer" />
+                <Button
+                    android:id="@+id/start_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Pedometer" />
+
+                <Button
+                    android:id="@+id/stop_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stop Pedometer" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/reset_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reset Counter" />
+                android:text="Reset Counter"
+                android:gravity="center"
+                android:layout_gravity="center"/>
 
-            <TextView
-                android:id="@+id/step_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0" />
+
 
 
         </LinearLayout>
+
 
     </androidx.core.widget.NestedScrollView>
 
