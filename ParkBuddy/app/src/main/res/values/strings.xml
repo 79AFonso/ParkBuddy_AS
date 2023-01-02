@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">ParkBuddy</string>
     <string name="steps">Steps</string>
-    <string name="swipe_dismiss_behavior">androidx.coordinatorlayout.widget.SwipeDismissBehavior</string>
+    <string name="swipe_dismiss_behavior">androidx.coordinator layout.widget.SwipeDismissBehavior</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="get_path">GET PATH</string>
 
 </resources>
