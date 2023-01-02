@@ -70,18 +70,14 @@ public class ScannerActivity extends AppCompatActivity
     ActivityResultLauncher<ScanOptions> barLaucher = registerForActivityResult(new ScanContract(), result->
     {
         if(result.getContents() !=null)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(ScannerActivity.this);
-            builder.setTitle("Result");
-            builder.setMessage(result.getContents());
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i)
-                {
-                    dialogInterface.dismiss();
-                }
-            }).show();
+        {//quando deteta o QR faz
+            String temp = result.getContents();
+            String[] coordArr = temp.split(",");
+            String latitude = coordArr[0];
+            String longitude = coordArr[1];
+            Intent intent = new Intent(ScannerActivity.this, MapsActivity.class);
+            intent.putExtra("localizacao", latitude+" "+longitude);
+            startActivity(intent);
         }
     });
 

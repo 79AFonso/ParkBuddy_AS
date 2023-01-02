@@ -3,6 +3,6 @@
     <string name="steps">Steps</string>
     <string name="swipe_dismiss_behavior">androidx.coordinator layout.widget.SwipeDismissBehavior</string>
     <string name="title_activity_maps">MapsActivity</string>
-    <string name="get_path">GET PATH</string>
+    <string name="getpath">GET PATH</string>
 
 </resources>

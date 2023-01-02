@@ -7,6 +7,8 @@ dar check in/out, pagar, contabilizar
 
 ----FALTA FAZER (IR ADICIONANDO QUANDO LEMBRAR)----
 
+mudar a UI dos botoes do mapa (cores e texto GET PATH)
+
 SENSORES BIOMETRICOS,
 
 adaptar o update(longClick) com a firebase (so meti o add e o delete ainda)

@@ -169,11 +169,36 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(car, 15));
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mapFragment != null) {
+            mapFragment.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mapFragment != null) {
+            mapFragment.onPause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mapFragment != null) {
+            mapFragment.onDestroy();
+        }
+    }
 
 
 
 
-    @SuppressLint("MissingPermission")
+
+
+@SuppressLint("MissingPermission")
     private void getLastLocation() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
