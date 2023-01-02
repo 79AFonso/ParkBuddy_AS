@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="idBtnMakePayment" type="id" />
+    <item name="idTVTransactionDetails" type="id" />
+    <item name="idEdtDescription" type="id" />
+    <item name="idEdtName" type="id" />
+    <item name="idEdtUpi" type="id" />
+</resources>

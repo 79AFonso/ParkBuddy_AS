@@ -61,7 +61,7 @@ public class TimerService extends Service {
 
             Intent notificationIntent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                    0, notificationIntent, 0);
+                    0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
             Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setContentTitle("PAID PARKING TIMER")
@@ -70,7 +70,9 @@ public class TimerService extends Service {
                     .setContentIntent(pendingIntent)
                     .build();
 
+            // Start the service as a foreground service
             startForeground(1, notification);
+
             startTimer();
             isRunning = true;
         }
