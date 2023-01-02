@@ -1,14 +1,19 @@
 package com.example.parkbuddy;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +31,17 @@ public class PaymentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_layout);
+
+        // o nosso vermelho
+        int color = Color.parseColor("#A0282C");
+
+        // Get the app bar for the activity
+        ActionBar appBar = getSupportActionBar();
+        appBar.setBackgroundDrawable(new ColorDrawable(color));
+        appBar.setTitle("PAYMENTS");
+
+        // Enable the "back" button in the app bar
+        appBar.setDisplayHomeAsUpEnabled(true);
 
         // initializing all our variables.
         amountEdt = findViewById(R.id.idEdtAmount);
@@ -55,12 +71,23 @@ public class PaymentActivity extends AppCompatActivity {
                 } else {
                     // if the edit text is not empty then
                     // we are calling method to make payment.
-                    Toast.makeText(PaymentActivity.this, "PAYED", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaymentActivity.this, "PAYMENT SUCCESSFULLY COMPLETED", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(PaymentActivity.this, MainMenu.class);
                 }
             }
         });
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle "up" button click
+        if (item.getItemId() == android.R.id.home) {
+            // Navigate the user back to the previous activity
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
 
