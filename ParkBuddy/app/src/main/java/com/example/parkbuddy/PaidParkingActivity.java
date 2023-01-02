@@ -93,13 +93,17 @@ public class PaidParkingActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isBound) {
-                    Intent serviceIntent = new Intent(PaidParkingActivity.this, TimerService.class);
-                    ContextCompat.startForegroundService(PaidParkingActivity.this, serviceIntent);
-                    timerService.startTimer();
-                }
+                // Create an Intent for the TimerService
+                Intent serviceIntent = new Intent(PaidParkingActivity.this, TimerService.class);
+
+                // Start the foreground service
+                ContextCompat.startForegroundService(PaidParkingActivity.this, serviceIntent);
+
+                // Bind to the service
+                bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
             }
         });
+
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
