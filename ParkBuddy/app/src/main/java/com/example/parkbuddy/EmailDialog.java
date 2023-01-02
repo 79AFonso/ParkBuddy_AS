@@ -23,9 +23,9 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class PwDialog extends AppCompatDialogFragment {
+public class EmailDialog extends AppCompatDialogFragment {
 
-    TextInputEditText OldPW, NewPW, NewConfirm;
+    TextInputEditText PW, NewMail;
     FirebaseUser user;
 
     @NonNull
@@ -34,7 +34,7 @@ public class PwDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_dialogpw, null);
+        View view = inflater.inflate(R.layout.layout_dialogmail, null);
 
 
         builder.setView(view)
@@ -48,26 +48,21 @@ public class PwDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Change", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        OldPW = view.findViewById(R.id.etOldPass);
-                        NewPW = view.findViewById(R.id.etNewPass);
-                        NewConfirm = view.findViewById(R.id.etNewConfirmPass);
+                        PW = view.findViewById(R.id.etPW);
+                        NewMail = view.findViewById(R.id.etNewMail);
                         user = FirebaseAuth.getInstance().getCurrentUser();
 
-                        String oldpassword = OldPW.getText().toString();
-                        String password = NewPW.getText().toString();
-                        String confirmPassword = NewConfirm.getText().toString();
-                        if (TextUtils.isEmpty(oldpassword)){
-                            OldPW.setError("Password cannot be empty");
-                            OldPW.requestFocus();
-                        }else if (TextUtils.isEmpty(password)) {
-                            NewPW.setError("Password cannot be empty");
-                            NewPW.requestFocus();
-                        }else if(!password.equals(confirmPassword)){
-                            NewConfirm.setError("Passwords don´t match");
-                            NewConfirm.requestFocus();
+                        String password = PW.getText().toString();
+                        String mail = NewMail.getText().toString();
+                        if (TextUtils.isEmpty(password)){
+                            PW.setError("Password cannot be empty");
+                            PW.requestFocus();
+                        }else if (TextUtils.isEmpty(mail)) {
+                            NewMail.setError("Password cannot be empty");
+                            NewMail.requestFocus();
                         }else {
                             AuthCredential credential = EmailAuthProvider
-                                    .getCredential(user.getEmail(), oldpassword);
+                                    .getCredential(user.getEmail(), password);
 
 // Prompt the user to re-provide their sign-in credentials
                             user.reauthenticate(credential)
@@ -75,7 +70,7 @@ public class PwDialog extends AppCompatDialogFragment {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                user.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                user.updateEmail(mail).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {

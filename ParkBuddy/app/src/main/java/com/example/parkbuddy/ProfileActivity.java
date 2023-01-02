@@ -61,6 +61,9 @@ public class ProfileActivity extends AppCompatActivity {
         btnEditPassword.setOnClickListener(view ->{
             openDialog();
         });
+        btnEditMail.setOnClickListener(view ->{
+            openDialogMail();
+        });
 
 
 
@@ -68,7 +71,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void openDialog() {
         PwDialog pwDialog = new PwDialog();
-        pwDialog.show(getSupportFragmentManager(), "test");
+        pwDialog.show(getSupportFragmentManager(), "Change Password");
+    }
+    private void openDialogMail() {
+        EmailDialog emailDialog = new EmailDialog();
+        emailDialog.show(getSupportFragmentManager(), "Change Email");
     }
 
     @Override
