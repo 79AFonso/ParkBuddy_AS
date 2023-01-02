@@ -67,7 +67,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     private GoogleMap mMap;
-    private ActivityMapsBinding binding;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private final static int REQUEST_CODE=100;
     LatLng me,car;
@@ -165,6 +164,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Add a marker in Sydney and move the camera
         car = new LatLng(Double.parseDouble(localizacao[0]), Double.parseDouble(localizacao[1]));
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.addMarker(new MarkerOptions().position(car).title("Car Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(car, 15));
 
@@ -207,11 +207,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void switchCamera(){
         if (switchCam == false) {
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, 200));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(me, (float) 18.4746));
             switchCam = true;
         }
         else{
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(car, 200));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(car, (float) 18.4746));
             switchCam = false;
         }
     }
@@ -268,7 +268,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
             // Draw the path on the map using the list of coordinates
-            PolylineOptions options = new PolylineOptions().width(10).color(Color.BLUE).geodesic(true);
+            PolylineOptions options = new PolylineOptions().width(5).color(Color.BLUE).geodesic(true);
             for (int i = 0; i < path.size(); i++) {
                 LatLng point = path.get(i);
                 options.add(point);
