@@ -38,11 +38,7 @@ public class ScannerActivity extends AppCompatActivity
         // Enable the "back" button in the app bar
         appBar.setDisplayHomeAsUpEnabled(true);
 
-        btn_scan =findViewById(R.id.btn_scan);
-        btn_scan.setOnClickListener(v->
-        {
-            scanCode();
-        });
+        scanCode();
     }
 
     @Override
