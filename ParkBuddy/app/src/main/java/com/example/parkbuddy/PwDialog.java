@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,20 +57,24 @@ public class PwDialog extends AppCompatDialogFragment {
                         String oldpassword = OldPW.getText().toString();
                         String password = NewPW.getText().toString();
                         String confirmPassword = NewConfirm.getText().toString();
-                        if (oldpassword.isEmpty()){
-                            OldPW.setError("Password cannot be empty");
-                            OldPW.requestFocus();
+
+                        Log.d(TAG, "Old password: " + oldpassword);
+
+                        if (TextUtils.isEmpty(oldpassword)){
+                            builder.setCancelable(false);
+                            Toast.makeText(getActivity(), "Error Old Password is empty", Toast.LENGTH_SHORT).show();
                         }else if (password.isEmpty()) {
-                            NewPW.setError("Password cannot be empty");
-                            NewPW.requestFocus();
+                            builder.setCancelable(false);
+                            Toast.makeText(getActivity(), "New Password is empty", Toast.LENGTH_SHORT).show();
                         }else if(!password.equals(confirmPassword)){
-                            NewConfirm.setError("Passwords don´t match");
-                            NewConfirm.requestFocus();
+                            builder.setCancelable(false);
+                            Toast.makeText(getActivity(), "Passwords dont match", Toast.LENGTH_SHORT).show();
                         }else {
+                            builder.setCancelable(true);
                             AuthCredential credential = EmailAuthProvider
                                     .getCredential(user.getEmail(), oldpassword);
 
-// Prompt the user to re-provide their sign-in credentials
+                            // Prompt the user to re-provide their sign-in credentials
                             user.reauthenticate(credential)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -79,14 +84,16 @@ public class PwDialog extends AppCompatDialogFragment {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
-
+                                                            Toast.makeText(getActivity(), "Password updated", Toast.LENGTH_SHORT).show();
                                                             Log.d(TAG, "Password updated");
                                                         } else {
+                                                            Toast.makeText(getActivity(), "Error password not updated", Toast.LENGTH_SHORT).show();
                                                             Log.d(TAG, "Error password not updated");
                                                         }
                                                     }
                                                 });
                                             } else {
+                                                Toast.makeText(getActivity(), "Error updating password", Toast.LENGTH_SHORT).show();
                                                 Log.d(TAG, "Error auth failed");
                                             }
                                         }
@@ -94,6 +101,7 @@ public class PwDialog extends AppCompatDialogFragment {
                         }
                     }
                 });
+        builder.setCancelable(false);
         return builder.create();
     }
 }
