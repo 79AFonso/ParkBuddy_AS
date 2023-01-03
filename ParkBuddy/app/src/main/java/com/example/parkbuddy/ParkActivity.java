@@ -221,27 +221,34 @@ public class ParkActivity extends AppCompatActivity {
 
                        Boolean inUse = false;
 
+                       if (plate.isEmpty() || model.isEmpty() ){
+                           Toast.makeText(ParkActivity.this, "Please fill all the fields",Toast.LENGTH_SHORT).show();
+                       }
+                       else{
+                           for(int i = 0; i < arrVehicles.size(); i++) {
+                               if(plate.equals(arrVehicles.get(i).getPlate())) {
+                                   inUse = true;
+                                   Toast.makeText(ParkActivity.this, "Car Plate already in use",Toast.LENGTH_SHORT).show();
 
-                       for(int i = 0; i < arrVehicles.size(); i++) {
-                           if(plate.equals(arrVehicles.get(i).getPlate())) {
-                               inUse = true;
-                               Toast.makeText(ParkActivity.this, "Car Plate already in use",Toast.LENGTH_SHORT).show();
-
+                               }
                            }
+                           if(!inUse)
+                           {
+                               arrVehicles.add(new VehicleModel(img,model,plate,currentUser.getUid()));
+                               // Upload(plate, taskSnapshot.getStorage().getDownloadUrl().toString(), currentUser,model);
+
+                               uploadFile(img,model,plate);
+
+                               adapter.notifyItemInserted(arrVehicles.size() - 1);
+
+                               recyclerView.scrollToPosition(arrVehicles.size() - 1);
+
+                               dialog.dismiss();
+                           }
+
                        }
-                       if(!inUse)
-                       {
-                           arrVehicles.add(new VehicleModel(img,model,plate,currentUser.getUid()));
-                           // Upload(plate, taskSnapshot.getStorage().getDownloadUrl().toString(), currentUser,model);
 
-                           uploadFile(img,model,plate);
 
-                           adapter.notifyItemInserted(arrVehicles.size() - 1);
-
-                           recyclerView.scrollToPosition(arrVehicles.size() - 1);
-
-                           dialog.dismiss();
-                       }
                    }
                 });
 
