@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -105,6 +106,7 @@ public class PaidParkingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Create an Intent for the TimerService
                 Intent serviceIntent = new Intent(PaidParkingActivity.this, TimerService.class);
+                serviceIntent.putExtra("pricePerHour", pricePerHour.getText().toString());
 
                 // Start the foreground service
                 ContextCompat.startForegroundService(PaidParkingActivity.this, serviceIntent);
@@ -117,50 +119,58 @@ public class PaidParkingActivity extends AppCompatActivity {
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float preco = Float.parseFloat(pricePerHour.getText().toString());
 
-                float time = timerValue;  // segundos
+                if(pricePerHour.getText().toString().equals("")) {
+                    Toast.makeText(PaidParkingActivity.this, "Please insert Price per hour",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    float preco = Float.parseFloat(pricePerHour.getText().toString());
 
-                float hora = time /3600; // segundos para hora
+                    float time = timerValue;  // segundos
 
-                float precoF = preco * hora;  // preço final
+                    float hora = time /3600; // segundos para hora
 
-                if (isBound) {
-                    timerService.stopTimer();
-                    Intent serviceIntent = new Intent(PaidParkingActivity.this, TimerService.class);
-                    stopService(serviceIntent);
+                    float precoF = preco * hora;  // preço final
+
+                    if (isBound) {
+                        timerService.stopTimer();
+                        Intent serviceIntent = new Intent(PaidParkingActivity.this, TimerService.class);
+                        stopService(serviceIntent);
+                    }
+
+                    // Create the object of AlertDialog Builder class
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PaidParkingActivity.this);
+
+                    // Set the message show for the Alert time
+                    builder.setMessage("Do you want to pay ?");
+
+                    // Set Alert Title
+                    builder.setTitle("PAID PARKING");
+
+                    // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
+                    builder.setCancelable(false);
+
+                    // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
+                    builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        // When the user click yes button then app will close
+                        Intent intent = new Intent(PaidParkingActivity.this, PaymentActivity.class);
+                        intent.putExtra("preco", String.valueOf(String.format("%.2f", precoF)));
+                        startActivity(intent);
+                    });
+
+                    // Set the Negative button with No name Lambda OnClickListener method is use of DialogInterface interface.
+                    builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        // If user click no then dialog box is canceled.
+                        dialog.cancel();
+                    });
+
+                    // Create the Alert dialog
+                    AlertDialog alertDialog = builder.create();
+                    // Show the Alert Dialog box
+                    alertDialog.show();
                 }
 
-                // Create the object of AlertDialog Builder class
-                AlertDialog.Builder builder = new AlertDialog.Builder(PaidParkingActivity.this);
-
-                // Set the message show for the Alert time
-                builder.setMessage("Do you want to pay ?");
-
-                // Set Alert Title
-                builder.setTitle("PAID PARKING");
-
-                // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
-                builder.setCancelable(false);
-
-                // Set the positive button with yes name Lambda OnClickListener method is use of DialogInterface interface.
-                builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
-                    // When the user click yes button then app will close
-                    Intent intent = new Intent(PaidParkingActivity.this, PaymentActivity.class);
-                    intent.putExtra("preco", String.valueOf(String.format("%.2f", precoF)));
-                    startActivity(intent);
-                });
-
-                // Set the Negative button with No name Lambda OnClickListener method is use of DialogInterface interface.
-                builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
-                    // If user click no then dialog box is canceled.
-                    dialog.cancel();
-                });
-
-                // Create the Alert dialog
-                AlertDialog alertDialog = builder.create();
-                // Show the Alert Dialog box
-                alertDialog.show();
             }
         });
     }
