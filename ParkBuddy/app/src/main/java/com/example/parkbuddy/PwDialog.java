@@ -56,10 +56,10 @@ public class PwDialog extends AppCompatDialogFragment {
                         String oldpassword = OldPW.getText().toString();
                         String password = NewPW.getText().toString();
                         String confirmPassword = NewConfirm.getText().toString();
-                        if (TextUtils.isEmpty(oldpassword)){
+                        if (oldpassword.isEmpty()){
                             OldPW.setError("Password cannot be empty");
                             OldPW.requestFocus();
-                        }else if (TextUtils.isEmpty(password)) {
+                        }else if (password.isEmpty()) {
                             NewPW.setError("Password cannot be empty");
                             NewPW.requestFocus();
                         }else if(!password.equals(confirmPassword)){
