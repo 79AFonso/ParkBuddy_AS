@@ -2,8 +2,12 @@ package com.example.parkbuddy;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -38,6 +42,17 @@ public class MainMenu extends AppCompatActivity {
         statisticBtn.setTextColor(Color.BLACK);
         profileBtn.setBackgroundColor(Color.WHITE);
         profileBtn.setTextColor(Color.BLACK);
+
+
+        // Check if the location permission has been granted
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+        } else {
+            // Request the location permission
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+
+        }
 
         parkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
