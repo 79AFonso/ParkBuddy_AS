@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,10 +56,12 @@ public class EmailDialog extends AppCompatDialogFragment {
                         String password = PW.getText().toString();
                         String mail = NewMail.getText().toString();
                         if (TextUtils.isEmpty(password)){
+                            Toast.makeText(getActivity(), "Password cannot be empty", Toast.LENGTH_SHORT).show();
                             PW.setError("Password cannot be empty");
                             PW.requestFocus();
                         }else if (TextUtils.isEmpty(mail)) {
-                            NewMail.setError("Password cannot be empty");
+                            Toast.makeText(getActivity(), "Email cannot be empty", Toast.LENGTH_SHORT).show();
+                            NewMail.setError("Email cannot be empty");
                             NewMail.requestFocus();
                         }else {
                             AuthCredential credential = EmailAuthProvider
@@ -74,14 +77,16 @@ public class EmailDialog extends AppCompatDialogFragment {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
-
+                                                            Toast.makeText(getActivity(), "Mail Updated", Toast.LENGTH_SHORT).show();
                                                             Log.d(TAG, "Password updated");
                                                         } else {
+                                                            Toast.makeText(getActivity(), "Error updating email", Toast.LENGTH_SHORT).show();
                                                             Log.d(TAG, "Error password not updated");
                                                         }
                                                     }
                                                 });
                                             } else {
+                                                Toast.makeText(getActivity(), "Error updating email", Toast.LENGTH_SHORT).show();
                                                 Log.d(TAG, "Error auth failed");
                                             }
                                         }
