@@ -1,17 +1,10 @@
-booking, pagamentos..
-firebase migrar contas
 
-dar check in/out, pagar, contabilizar
+We need to add a google maps key to local.properties
 
-(simular a cancela)
+for teste proposes we can use:
 
-----FALTA FAZER (IR ADICIONANDO QUANDO LEMBRAR)----
+admin1@ua.pt
+123456
 
-mudar a UI dos botoes do mapa (cores e texto GET PATH)
-mudar cor dos markers
 
-adaptar o update(longClick) com a firebase (so meti o add e o delete ainda)
-
-------
-
-adicionar key do maps no local.properties
+accept access to sensors when asked
