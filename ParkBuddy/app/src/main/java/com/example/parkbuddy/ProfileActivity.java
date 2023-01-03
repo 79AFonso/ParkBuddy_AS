@@ -1,12 +1,20 @@
 package com.example.parkbuddy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     TextView textMail, textparkedCars;
     int count = 0;
+    SensorManager sensorManager;
+    Sensor proximitySensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +78,38 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
+
+
+    // calling the sensor event class to detect
+    // the change in data when sensor starts working.
+    SensorEventListener proximitySensorEventListener = new SensorEventListener() {
+
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            // method to check accuracy changed in sensor.
+        }
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            // check if the sensor type is proximity sensor.
+            if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+                if (event.values[0] == 0) {
+                    // here we are setting our status to our textview..
+                    // if sensor event return 0 then object is closed
+                    // to sensor else object is away from sensor.
+                    System.out.println("Close");
+                    layoutParams.screenBrightness = (float) 0.1;
+                    getWindow().setAttributes(layoutParams);
+                } else {
+                    layoutParams.screenBrightness = (float) 0.6;
+                    getWindow().setAttributes(layoutParams);
+                    System.out.println("Away");
+                }
+            }
+        }
+    };
 
     private void openDialog() {
         PwDialog pwDialog = new PwDialog();
@@ -130,6 +172,27 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
         });
+
+        // calling sensor service.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        }
+
+        // from sensor service we are
+        // calling proximity sensor
+        proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
+        // handling the case if the proximity
+        // sensor is not present in users device.
+        if (proximitySensor == null) {
+            Toast.makeText(this, "No proximity sensor found in device.", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            // registering our sensor with sensor manager.
+            sensorManager.registerListener(proximitySensorEventListener,
+                    proximitySensor,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+        }
 
 
 
