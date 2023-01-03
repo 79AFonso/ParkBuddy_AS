@@ -72,7 +72,7 @@ public class ScannerActivity extends AppCompatActivity
             String latitude = coordArr[0];
             String longitude = coordArr[1];
             Intent intent = new Intent(ScannerActivity.this, MapsActivity.class);
-            intent.putExtra("localizacao", latitude+" "+longitude);
+            intent.putExtra("localizacao", latitude+" "+longitude+ " " + coordArr[2]);
             startActivity(intent);
         }
     });

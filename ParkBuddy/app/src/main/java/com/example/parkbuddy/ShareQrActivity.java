@@ -89,7 +89,7 @@ public class ShareQrActivity extends AppCompatActivity {
                             latitude = actualVehicle.getLatitude();
                             longitude = actualVehicle.getLongitude();
 
-                            data = latitude + "," + longitude;
+                            data = latitude + "," + longitude+"," + matricula;
 
                             try {
                                 Paint paint = new Paint();
