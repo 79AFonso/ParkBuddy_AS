@@ -73,12 +73,16 @@ public class ParkActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     double latitude,longitude;
+    LocationManager locationManager;
 
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park);
+
+        // Get a reference to the LocationManager system service
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -102,36 +106,15 @@ public class ParkActivity extends AppCompatActivity {
         appBar.setDisplayHomeAsUpEnabled(true);
 
 
-        // Get a reference to the LocationManager
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
 
         // Check if the location permission has been granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            // Request location updates
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    // Do something with the new location
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-                    Log.d("LATITUDE", "Latitude: " + latitude + " Longitude: " + longitude);
-                }
-
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) { }
-
-                @Override
-                public void onProviderEnabled(String provider) { }
-
-                @Override
-                public void onProviderDisabled(String provider) { }
-
-            });
-        } else {
+                requestLocationUpdates();
+            } else {
             // Request the location permission
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            requestLocationUpdates();
         }
 
 
@@ -445,6 +428,32 @@ public class ParkActivity extends AppCompatActivity {
             databaseUsers.child(key).setValue(upload);
             Toast.makeText(this,"No picture inserted.",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // Call this method to request location updates
+    @SuppressLint("MissingPermission")
+    private void requestLocationUpdates() {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    // Do something with the new location
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    Log.d("LATITUDE", "Latitude: " + latitude + " Longitude: " + longitude);
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+                }
+            });
     }
 
 
